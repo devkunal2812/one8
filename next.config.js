@@ -1,0 +1,17 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: '**.wikimedia.org' },
+      { protocol: 'https', hostname: '**.githubusercontent.com' },
+    ],
+    formats: ['image/avif', 'image/webp'],
+  },
+  // Enable experimental features for performance
+  experimental: {
+    optimizeCss: true,
+  },
+}
+
+module.exports = nextConfig
