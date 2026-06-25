@@ -24,7 +24,7 @@ const CHAPTERS = [
     year:    '2008–2012',
     quote:   'When you work hard and dedicate yourself, you\'ll get results.',
     body:    'From a chubby kid mocked at nets to the fittest cricketer on the planet. He rewrote his body, his diet, his entire identity  -  and became the gold standard of athletic discipline in Indian sport.',
-    accent:  '#C0392B',
+    accent:  '#C0C0C0',
     align:   'right',
   },
   {
