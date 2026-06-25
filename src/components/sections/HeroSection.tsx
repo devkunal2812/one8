@@ -1,25 +1,25 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Image from 'next/image'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const VIRAT_PHOTO = 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Virat_Kohli_in_2012_ODI_series.jpg/800px-Virat_Kohli_in_2012_ODI_series.jpg'
+// Use our API proxy route - bypasses wikimedia hotlink protection
+const VIRAT_PHOTO_SRC = '/api/virat-photo'
 
 export default function HeroSection() {
   const sectionRef  = useRef<HTMLElement>(null)
   const headlineRef = useRef<HTMLDivElement>(null)
   const photoRef    = useRef<HTMLDivElement>(null)
+  const [imgError, setImgError] = useState(false)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.to(photoRef.current, {
-        yPercent: 12,
-        ease: 'none',
+        yPercent: 12, ease: 'none',
         scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: true },
       })
       gsap.to(headlineRef.current, {
@@ -36,7 +36,7 @@ export default function HeroSection() {
       id="hero"
       className="relative w-full min-h-screen flex items-center overflow-hidden"
     >
-      {/* ── Background ── */}
+      {/* Background */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-king-black" />
         <div className="absolute inset-0" style={{
@@ -45,7 +45,6 @@ export default function HeroSection() {
             radial-gradient(ellipse 50% 40% at 20% 50%, rgba(192,57,43,0.06) 0%, transparent 60%)
           `
         }} />
-        {/* grid */}
         <div className="absolute inset-0 opacity-[0.022]" style={{
           backgroundImage: `linear-gradient(rgba(192,192,192,1) 1px, transparent 1px), linear-gradient(90deg, rgba(192,192,192,1) 1px, transparent 1px)`,
           backgroundSize: '80px 80px',
@@ -54,71 +53,84 @@ export default function HeroSection() {
           style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(10,10,10,0.9) 100%)' }} />
       </div>
 
-      {/* ── Mobile: stacked layout  |  Desktop: side by side ── */}
+      {/* Main content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 pt-24 pb-20">
-
-        {/* On mobile: photo on top, text below. On desktop: text left, photo right */}
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-8">
 
-          {/* ── Photo (mobile: full-width banner, desktop: right column) ── */}
+          {/* Photo column */}
           <motion.div
             ref={photoRef}
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.0, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="w-full lg:order-2 lg:w-1/2"
+            className="w-full lg:order-2 lg:w-1/2 flex justify-center"
           >
-            {/* Aspect-ratio box — 4:5 on mobile, 3:4 on desktop */}
-            <div className="relative w-full mx-auto max-w-sm lg:max-w-none"
+            <div className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-none lg:w-full"
               style={{ aspectRatio: '4/5' }}>
 
-              {/* Silver ring behind photo — hidden on small mobile */}
-              <div className="hidden sm:block absolute -inset-4 rounded-2xl pointer-events-none"
-                style={{ background: 'radial-gradient(ellipse at center, rgba(192,192,192,0.06) 0%, transparent 70%)' }} />
+              {/* Glow ring */}
+              <div className="absolute -inset-2 rounded-2xl pointer-events-none"
+                style={{ background: 'radial-gradient(ellipse at center, rgba(192,192,192,0.05) 0%, transparent 70%)' }} />
+
+              {/* Silver accent bar */}
+              <div className="absolute left-0 top-[10%] bottom-[10%] w-0.5 z-10 rounded-full"
+                style={{ background: 'linear-gradient(180deg, transparent, #C0C0C0 40%, #C0C0C0 60%, transparent)' }} />
 
               {/* Photo frame */}
               <div className="relative w-full h-full rounded-2xl overflow-hidden"
-                style={{ boxShadow: '0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(192,192,192,0.08)' }}>
-                <Image
-                  src={VIRAT_PHOTO}
-                  alt="Virat Kohli"
-                  fill
-                  priority
-                  className="object-cover object-top"
-                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 40vw"
-                />
-                {/* Bottom fade */}
+                style={{ boxShadow: '0 24px 64px rgba(0,0,0,0.7), 0 0 0 1px rgba(192,192,192,0.1)' }}>
+
+                {!imgError ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={VIRAT_PHOTO_SRC}
+                    alt="Virat Kohli"
+                    className="w-full h-full object-cover object-top"
+                    onError={() => setImgError(true)}
+                    style={{ display: 'block' }}
+                  />
+                ) : (
+                  /* Fallback: cinematic VK monogram */
+                  <div className="w-full h-full flex flex-col items-center justify-center"
+                    style={{ background: 'linear-gradient(160deg, #111 0%, #0a0a0a 100%)' }}>
+                    <div className="font-display text-[8rem] leading-none"
+                      style={{ color: '#C0C0C0', fontFamily: 'var(--font-display)', opacity: 0.15 }}>
+                      VK
+                    </div>
+                    <div className="font-mono text-xs uppercase tracking-[0.5em] text-white/30 mt-4">
+                      Virat Kohli
+                    </div>
+                  </div>
+                )}
+
+                {/* Overlays */}
                 <div className="absolute inset-0 pointer-events-none"
                   style={{ background: 'linear-gradient(180deg, transparent 55%, rgba(10,10,10,0.85) 100%)' }} />
-                {/* Side fade */}
                 <div className="absolute inset-0 pointer-events-none"
-                  style={{ background: 'linear-gradient(90deg, rgba(10,10,10,0.25) 0%, transparent 15%, transparent 85%, rgba(10,10,10,0.25) 100%)' }} />
+                  style={{ background: 'linear-gradient(90deg, rgba(10,10,10,0.2) 0%, transparent 12%, transparent 88%, rgba(10,10,10,0.2) 100%)' }} />
               </div>
 
-              {/* Silver accent left bar */}
-              <div className="absolute left-0 top-[12%] bottom-[12%] w-0.5 rounded-full"
-                style={{ background: 'linear-gradient(180deg, transparent, #C0C0C0, transparent)' }} />
-
-              {/* Floating info chip */}
-              <div className="absolute bottom-4 left-4 right-4 glass-card-dark px-4 py-3 rounded-xl">
+              {/* Floating name card */}
+              <div className="absolute bottom-4 left-3 right-3 glass-card-dark px-4 py-3 rounded-xl z-10">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="font-display text-lg text-white" style={{ fontFamily: 'var(--font-display)' }}>VIRAT KOHLI</div>
-                    <div className="font-mono text-[10px] uppercase tracking-widest text-white/40">The King of Cricket</div>
+                    <div className="font-display text-base sm:text-lg text-white" style={{ fontFamily: 'var(--font-display)' }}>
+                      VIRAT KOHLI
+                    </div>
+                    <div className="font-mono text-[9px] uppercase tracking-widest text-white/40">The King of Cricket</div>
                   </div>
                   <div className="text-right">
                     <div className="font-mono text-[10px] uppercase tracking-widest" style={{ color: '#C0C0C0' }}>ONE8</div>
-                    <div className="font-mono text-[10px] text-white/30">Co-founder</div>
+                    <div className="font-mono text-[9px] text-white/30">Co-founder</div>
                   </div>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* ── Text ── */}
+          {/* Text column */}
           <div ref={headlineRef} className="w-full lg:order-1 lg:w-1/2 flex flex-col gap-5 lg:gap-6">
 
-            {/* Eyebrow */}
             <motion.div
               initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -130,12 +142,11 @@ export default function HeroSection() {
               </span>
             </motion.div>
 
-            {/* Headline */}
             <motion.h1
               initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="font-display leading-[0.88] text-white"
-              style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3.5rem, 10vw, 7.5rem)' }}
+              style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3rem, 9vw, 7.5rem)' }}
             >
               BUILT
               <br />
@@ -153,7 +164,6 @@ export default function HeroSection() {
               THRONE.
             </motion.h1>
 
-            {/* Subtext */}
             <motion.p
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
@@ -163,7 +173,6 @@ export default function HeroSection() {
               This is not just footwear - it is a statement.
             </motion.p>
 
-            {/* CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.0 }}
@@ -177,11 +186,10 @@ export default function HeroSection() {
               </a>
             </motion.div>
 
-            {/* Mini stats */}
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ delay: 1.3 }}
-              className="flex gap-6 pt-2 border-t border-white/5"
+              className="flex gap-6 pt-4 border-t border-white/5"
             >
               {[
                 { value: '27K+', label: 'Intl. Runs' },
@@ -195,6 +203,7 @@ export default function HeroSection() {
               ))}
             </motion.div>
           </div>
+
         </div>
       </div>
 
