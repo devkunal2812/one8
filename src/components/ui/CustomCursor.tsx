@@ -40,13 +40,13 @@ export default function CustomCursor() {
     const onEnter = () => {
       ring.style.width  = '60px'
       ring.style.height = '60px'
-      ring.style.borderColor = 'rgba(201,168,76,0.9)'
-      ring.style.background  = 'rgba(201,168,76,0.05)'
+      ring.style.borderColor = 'rgba(192,192,192,0.9)'
+      ring.style.background  = 'rgba(192,192,192,0.05)'
     }
     const onLeave = () => {
       ring.style.width  = '40px'
       ring.style.height = '40px'
-      ring.style.borderColor = 'rgba(201,168,76,0.6)'
+      ring.style.borderColor = 'rgba(192,192,192,0.6)'
       ring.style.background  = 'transparent'
     }
 

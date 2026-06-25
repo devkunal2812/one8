@@ -69,20 +69,20 @@ function WallpaperCanvas({ quote, colorway }: { quote: string; colorway: typeof 
 
     // Gold gradient overlay
     const grad = ctx.createRadialGradient(W/2, H, 50, W/2, H/2, H)
-    grad.addColorStop(0, 'rgba(201,168,76,0.15)')
+    grad.addColorStop(0, 'rgba(192,192,192,0.15)')
     grad.addColorStop(1, 'transparent')
     ctx.fillStyle = grad
     ctx.fillRect(0, 0, W, H)
 
     // Grid
-    ctx.strokeStyle = 'rgba(201,168,76,0.04)'
+    ctx.strokeStyle = 'rgba(192,192,192,0.04)'
     ctx.lineWidth = 1
     for (let x = 0; x < W; x += 60) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke() }
     for (let y = 0; y < H; y += 60) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke() }
 
     // ONE8 watermark
     ctx.font = 'bold 160px serif'
-    ctx.fillStyle = 'rgba(201,168,76,0.04)'
+    ctx.fillStyle = 'rgba(192,192,192,0.04)'
     ctx.textAlign = 'center'
     ctx.fillText('ONE8', W/2, H/2 + 60)
 
@@ -115,7 +115,7 @@ function WallpaperCanvas({ quote, colorway }: { quote: string; colorway: typeof 
     ctx.stroke()
 
     // Bottom label
-    ctx.fillStyle = 'rgba(201,168,76,0.5)'
+    ctx.fillStyle = 'rgba(192,192,192,0.5)'
     ctx.font = '12px monospace'
     ctx.textAlign = 'center'
     ctx.fillText('ONE8 – THE KING EDITION  |  FAN CONCEPT', W/2, H - 20)

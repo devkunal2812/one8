@@ -57,9 +57,9 @@ export default function ClosingSection() {
         {/* Deep cinematic atmosphere */}
         <div className="absolute inset-0" style={{
           background: `
-            radial-gradient(ellipse 100% 80% at 50% 100%, rgba(201,168,76,0.18) 0%, transparent 60%),
+            radial-gradient(ellipse 100% 80% at 50% 100%, rgba(192,192,192,0.18) 0%, transparent 60%),
             radial-gradient(ellipse 60%  60% at 20% 50%,  rgba(192,57,43,0.10)  0%, transparent 50%),
-            radial-gradient(ellipse 60%  60% at 80% 50%,  rgba(201,168,76,0.08) 0%, transparent 50%),
+            radial-gradient(ellipse 60%  60% at 80% 50%,  rgba(192,192,192,0.08) 0%, transparent 50%),
             #0A0A0A
           `
         }} />
@@ -84,8 +84,8 @@ export default function ClosingSection() {
         {/* Subtle grid */}
         <div className="absolute inset-0 opacity-[0.025]" style={{
           backgroundImage: `
-            linear-gradient(rgba(201,168,76,1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(201,168,76,1) 1px, transparent 1px)
+            linear-gradient(rgba(192,192,192,1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(192,192,192,1) 1px, transparent 1px)
           `,
           backgroundSize: '80px 80px',
         }} />
@@ -102,11 +102,11 @@ export default function ClosingSection() {
           transition={{ duration: 0.6 }}
           className="flex items-center justify-center gap-4 mb-12"
         >
-          <span className="w-16 h-px bg-gradient-to-r from-transparent to-king-gold" />
-          <span className="font-mono text-xs tracking-[0.5em] uppercase text-king-gold">
+          <span className="w-16 h-px bg-gradient-to-r from-transparent to-white/60" />
+          <span className="font-mono text-xs tracking-[0.5em] uppercase text-white">
             The Final Word
           </span>
-          <span className="w-16 h-px bg-gradient-to-l from-transparent to-king-gold" />
+          <span className="w-16 h-px bg-gradient-to-l from-transparent to-white/60" />
         </motion.div>
 
         {/* Main headline  -  word by word reveal */}
@@ -162,7 +162,7 @@ export default function ClosingSection() {
         >
           Every run scored at 4 AM. Every sprint when the body said stop.
           Every century when it mattered most. This is not luck.
-          This is <em className="text-king-gold not-italic font-medium">Virat Kohli</em>.
+          This is <em className="text-white not-italic font-medium">Virat Kohli</em>.
         </motion.p>
 
         {/* CTA cluster */}
@@ -186,7 +186,7 @@ export default function ClosingSection() {
           className="mt-20 font-display text-[18vw] select-none pointer-events-none"
           style={{
             fontFamily: 'var(--font-display)',
-            color: 'rgba(201,168,76,0.03)',
+            color: 'rgba(192,192,192,0.03)',
             lineHeight: 1,
             letterSpacing: '0.1em',
           }}

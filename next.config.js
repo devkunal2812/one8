@@ -4,9 +4,12 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: '**.wikimedia.org' },
+      { protocol: 'https', hostname: 'upload.wikimedia.org' },
       { protocol: 'https', hostname: '**.githubusercontent.com' },
+      { protocol: 'https', hostname: 'one8.com' },
     ],
     formats: ['image/avif', 'image/webp'],
+    unoptimized: false,
   },
 }
 

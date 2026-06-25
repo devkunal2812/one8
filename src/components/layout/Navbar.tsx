@@ -24,7 +24,7 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-600 ${
         scrolled
-          ? 'py-3 bg-king-black/90 backdrop-blur-sm border-b border-king-gold/10'
+          ? 'py-3 bg-king-black/90 backdrop-blur-sm border-b border-white/40/10'
           : 'py-5 bg-transparent'
       }`}
     >
@@ -37,7 +37,7 @@ export default function Navbar() {
           >
             ONE8
           </span>
-          <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-king-gold/60 mt-1">
+          <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/80/60 mt-1">
             King Edition
           </span>
         </a>
@@ -48,10 +48,10 @@ export default function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="text-sm font-medium tracking-[0.12em] uppercase text-king-white/70 hover:text-king-gold transition-colors duration-300 relative group"
+                className="text-sm font-medium tracking-[0.12em] uppercase text-king-white/70 hover:text-white/80 transition-colors duration-300 relative group"
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-king-gold group-hover:w-full transition-all duration-300" />
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-white/80 group-hover:w-full transition-all duration-300" />
               </a>
             </li>
           ))}
@@ -71,9 +71,9 @@ export default function Navbar() {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
-          <span className={`w-6 h-px bg-king-gold transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-          <span className={`w-6 h-px bg-king-gold transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} />
-          <span className={`w-6 h-px bg-king-gold transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+          <span className={`w-6 h-px bg-white/80 transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+          <span className={`w-6 h-px bg-white/80 transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} />
+          <span className={`w-6 h-px bg-white/80 transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
         </button>
       </nav>
 
@@ -91,7 +91,7 @@ export default function Navbar() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="text-base font-medium tracking-widest uppercase text-king-white/80 hover:text-king-gold transition-colors"
+                    className="text-base font-medium tracking-widest uppercase text-king-white/80 hover:text-white/80 transition-colors"
                     onClick={() => setMenuOpen(false)}
                   >
                     {link.label}

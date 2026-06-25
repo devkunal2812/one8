@@ -60,7 +60,7 @@ export default function LoadingScreen({ onComplete }: Props) {
 
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(201,168,76,${p.opacity * p.life})`
+        ctx.fillStyle = `rgba(192,192,192,${p.opacity * p.life})`
         ctx.fill()
       }
 
@@ -121,8 +121,8 @@ export default function LoadingScreen({ onComplete }: Props) {
           style={{
             opacity: lightsOn * 0.35,
             background: `
-              radial-gradient(ellipse 60% 40% at 15% 0%,  rgba(201,168,76,0.5) 0%, transparent 70%),
-              radial-gradient(ellipse 60% 40% at 85% 0%,  rgba(201,168,76,0.5) 0%, transparent 70%),
+              radial-gradient(ellipse 60% 40% at 15% 0%,  rgba(192,192,192,0.5) 0%, transparent 70%),
+              radial-gradient(ellipse 60% 40% at 85% 0%,  rgba(192,192,192,0.5) 0%, transparent 70%),
               radial-gradient(ellipse 40% 30% at 50% 0%,  rgba(255,240,200,0.3) 0%, transparent 60%)
             `,
             transition: 'opacity 0.1s linear',
@@ -138,7 +138,7 @@ export default function LoadingScreen({ onComplete }: Props) {
           style={{
             opacity:    phase === 'dark' ? 0 : Math.min(lightsOn * 2, 1),
             transition: 'opacity 0.5s ease',
-            textShadow: `0 0 ${lightsOn * 60}px rgba(201,168,76,${lightsOn * 0.8})`,
+            textShadow: `0 0 ${lightsOn * 60}px rgba(192,192,192,${lightsOn * 0.8})`,
           }}
         >
           ONE8
@@ -159,7 +159,7 @@ export default function LoadingScreen({ onComplete }: Props) {
             style={{
               width:      `${lightsOn * 100}%`,
               transition: 'width 0.1s linear',
-              boxShadow:  '0 0 8px rgba(201,168,76,0.8)',
+              boxShadow:  '0 0 8px rgba(192,192,192,0.8)',
             }}
           />
         </div>

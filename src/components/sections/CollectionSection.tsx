@@ -4,66 +4,61 @@ import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
-// Real ONE8 shoes with actual product images from one8.com / public sources
+// Real ONE8 products fetched from one8.com
 const PRODUCTS = [
   {
-    id:       'one8-pace',
-    name:     'ONE8 Pace',
-    subtitle: 'Running',
-    price:    '₹3,999',
-    mrp:      '₹5,999',
+    id:       'sonic-leap',
+    name:     'Sonic Leap',
+    subtitle: 'Badminton / Court',
+    price:    '₹7,999',
     tag:      'Bestseller',
     tagColor: '#C0C0C0',
-    image:    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80',
-    colors:   ['#111111', '#C0C0C0', '#C0392B'],
-    description: 'Lightweight mesh upper with responsive cushioning. Built for speed on every surface.',
-    specs: ['Mesh Upper', 'EVA Midsole', 'Rubber Outsole'],
+    image:    'https://one8.com/cdn/shop/files/V10015403_03.jpg?v=1781959219',
+    link:     'https://one8.com/products/sonic-leap-open-air-century-blue',
+    colors:   ['#1a3a5c', '#C0C0C0', '#0a0a0a'],
+    description: 'Designed for elite badminton players. Mid-foot stabiliser for lateral support. Sonic Foam for impact absorption. Sonic Grip herringbone outsole for multidirectional traction.',
+    specs: ['Sonic Foam Cushioning', 'Mid-foot Stabiliser', 'Herringbone Outsole', 'Engineered Mesh Upper'],
   },
   {
-    id:       'one8-court',
-    name:     'ONE8 Court',
-    subtitle: 'Training',
-    price:    '₹4,499',
-    mrp:      '₹6,499',
+    id:       '25-hour-pro',
+    name:     '25 Hour Pro',
+    subtitle: 'Lifestyle / Active',
+    price:    '₹8,999',
     tag:      'New Drop',
     tagColor: '#C0392B',
-    image:    'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&q=80',
-    colors:   ['#1a1a2e', '#E8E8E8', '#ffffff'],
-    description: 'Court-ready silhouette with lateral support. Dominate every training session.',
-    specs: ['Lateral Support', 'Non-marking Sole', 'Padded Collar'],
+    image:    'https://one8.com/cdn/shop/files/V10019001_03.jpg?v=1781959639',
+    link:     'https://one8.com/products/25-hour-classic-black-sonic-blue',
+    colors:   ['#0a0a0a', '#1a3a5c', '#2a2a2a'],
+    description: 'Laceless silhouette with stretch knitted upper that adapts to the foot. Activ8 pod for stability. Adaptive cushioning heel to toe. Sonic Grip outsole. Built to wear through the day and beyond.',
+    specs: ['Stretch Knit Upper', 'Activ8 Pod', 'Laceless Design', 'Sonic Grip Outsole'],
   },
   {
-    id:       'one8-street',
-    name:     'ONE8 Street',
-    subtitle: 'Lifestyle',
-    price:    '₹4,999',
-    mrp:      '₹7,499',
-    tag:      'Limited',
-    tagColor: '#6B7280',
-    image:    'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80',
-    colors:   ['#0a0a0a', '#C0C0C0', '#1a1a1a'],
-    description: 'Where the cricket ground meets the street. Premium leather upper, everyday comfort.',
-    specs: ['Premium Leather', 'Memory Foam Insole', 'Cupsole Construction'],
+    id:       'pro-load',
+    name:     'ProLoad',
+    subtitle: 'Gym / Training',
+    price:    '₹8,999',
+    tag:      'Fan Pick',
+    tagColor: '#4B5563',
+    image:    'https://one8.com/cdn/shop/files/V10015807_03.jpg?v=1781959492',
+    link:     'https://one8.com/products/pro-load-track-sand',
+    colors:   ['#d4c5a9', '#C0C0C0', '#2a2a2a'],
+    description: 'Designed for the gym. PWRLock+ stabiliser at the heel. Midfoot Rubber Wrap for lateral hold. Sonic Grip outsole with harder heel compound. The ultimate gym shoe for the everyday athlete.',
+    specs: ['PWRLock+ Heel Stabiliser', 'Midfoot Rubber Wrap', 'Ghillie Lacing', 'Hard-compound Heel Grip'],
   },
 ]
 
 function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: number }) {
   const [activeColor, setActiveColor] = useState(0)
-  const [rotAngle,    setRotAngle]    = useState(0)
+  const [rotAngle, setRotAngle]       = useState(0)
   const dragStart = useRef<number | null>(null)
 
   const handleMouseDown = (e: React.MouseEvent) => { dragStart.current = e.clientX }
   const handleMouseMove = (e: React.MouseEvent) => {
     if (dragStart.current === null) return
-    setRotAngle(prev => prev + (e.clientX - dragStart.current!) * 0.3)
+    setRotAngle(prev => prev + (e.clientX - dragStart.current!) * 0.25)
     dragStart.current = e.clientX
   }
   const handleMouseUp = () => { dragStart.current = null }
-
-  // Discount %
-  const mrpNum   = parseInt(product.mrp.replace(/[₹,]/g, ''))
-  const priceNum = parseInt(product.price.replace(/[₹,]/g, ''))
-  const discount = Math.round(((mrpNum - priceNum) / mrpNum) * 100)
 
   return (
     <motion.div
@@ -71,7 +66,7 @@ function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: n
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.7, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="product-card glass-card overflow-hidden group relative"
+      className="product-card glass-card overflow-hidden group relative flex flex-col"
     >
       {/* Tag */}
       <div
@@ -81,63 +76,59 @@ function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: n
         {product.tag}
       </div>
 
-      {/* Discount badge */}
-      <div className="absolute top-4 right-4 z-20 px-2 py-1 rounded-sm font-mono text-[10px] font-bold text-white"
-        style={{ background: '#C0392B' }}>
-        -{discount}%
-      </div>
-
-      {/* Shoe image */}
+      {/* Shoe image - real ONE8 CDN photo */}
       <div
-        className="relative h-52 overflow-hidden cursor-grab active:cursor-grabbing bg-king-black"
+        className="relative h-56 overflow-hidden cursor-grab active:cursor-grabbing bg-[#0f0f0f]"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >
         <div
-          className="w-full h-full transition-all duration-300"
-          style={{ transform: `perspective(600px) rotateY(${rotAngle * 0.05}deg) scale(1.02)` }}
+          className="w-full h-full"
+          style={{ transform: `perspective(800px) rotateY(${rotAngle * 0.04}deg)` }}
         >
           <Image
             src={product.image}
             alt={product.name}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-700"
+            className="object-contain p-4 group-hover:scale-110 transition-transform duration-700"
             sizes="(max-width: 768px) 100vw, 33vw"
+            unoptimized
           />
         </div>
-        {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-king-black/60 via-transparent to-transparent" />
-        <div className="absolute bottom-2 right-3 font-mono text-[9px] text-king-white/40 tracking-widest">
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f]/80 via-transparent to-transparent pointer-events-none" />
+        {/* Rotate hint */}
+        <div className="absolute bottom-2 right-3 font-mono text-[9px] text-white/30 tracking-widest pointer-events-none">
           DRAG TO ROTATE
         </div>
+        {/* Subtle silver glow behind shoe */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: `radial-gradient(ellipse 60% 50% at 50% 60%, rgba(192,192,192,0.06) 0%, transparent 70%)` }} />
       </div>
 
       {/* Card body */}
-      <div className="p-6 flex flex-col gap-4">
-        {/* Title row */}
+      <div className="p-6 flex flex-col gap-4 flex-1">
+        {/* Title + price */}
         <div className="flex items-start justify-between">
           <div>
-            <div className="font-mono text-[10px] tracking-[0.4em] uppercase text-king-white/40">{product.subtitle}</div>
-            <h3 className="font-display text-3xl text-king-white mt-1" style={{ fontFamily: 'var(--font-display)' }}>
+            <div className="font-mono text-[10px] tracking-[0.35em] uppercase text-white/40">{product.subtitle}</div>
+            <h3 className="font-display text-3xl text-white mt-1" style={{ fontFamily: 'var(--font-display)' }}>
               {product.name}
             </h3>
           </div>
-          <div className="text-right">
-            <div className="font-display text-2xl" style={{ color: '#C0C0C0', fontFamily: 'var(--font-display)' }}>
-              {product.price}
-            </div>
-            <div className="font-mono text-xs text-king-white/30 line-through">{product.mrp}</div>
+          <div className="font-display text-2xl" style={{ color: '#C0C0C0', fontFamily: 'var(--font-display)' }}>
+            {product.price}
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-king-white/50 text-sm leading-relaxed">{product.description}</p>
+        <p className="text-white/50 text-sm leading-relaxed flex-1">{product.description}</p>
 
-        {/* Color picker */}
+        {/* Color swatches */}
         <div className="flex items-center gap-3">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-king-white/30">Color</span>
+          <span className="font-mono text-[10px] uppercase tracking-widest text-white/30">Color</span>
           <div className="flex gap-2">
             {product.colors.map((c, i) => (
               <button
@@ -146,27 +137,27 @@ function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: n
                 className="w-5 h-5 rounded-full border-2 transition-all duration-200"
                 style={{
                   background:  c,
-                  borderColor: activeColor === i ? '#C0C0C0' : 'transparent',
+                  borderColor: activeColor === i ? '#C0C0C0' : 'rgba(255,255,255,0.1)',
                   boxShadow:   activeColor === i ? '0 0 8px rgba(192,192,192,0.5)' : 'none',
                 }}
-                aria-label={`Color ${i + 1}`}
+                aria-label={`Color option ${i + 1}`}
               />
             ))}
           </div>
         </div>
 
-        {/* Specs */}
+        {/* Spec chips */}
         <div className="flex flex-wrap gap-2">
           {product.specs.map((s) => (
-            <span key={s} className="px-2.5 py-1 rounded-sm font-mono text-[10px] tracking-wider text-king-white/50 border border-white/10">
+            <span key={s} className="px-2.5 py-1 rounded-sm font-mono text-[10px] tracking-wider text-white/40 border border-white/10">
               {s}
             </span>
           ))}
         </div>
 
-        {/* CTA */}
+        {/* Buy button */}
         <a
-          href="https://one8.com"
+          href={product.link}
           target="_blank"
           rel="noopener noreferrer"
           className="btn-primary w-full py-3.5 text-sm rounded-sm mt-1 text-center block"
@@ -191,16 +182,16 @@ export default function CollectionSection() {
           className="text-center mb-16"
         >
           <span className="font-mono text-xs tracking-[0.5em] uppercase block mb-4" style={{ color: '#C0C0C0' }}>
-            Signature Line
+            Official Products
           </span>
-          <h2 className="font-display text-[3.5rem] md:text-[5.5rem] text-king-white leading-none"
+          <h2 className="font-display text-[3.5rem] md:text-[5.5rem] text-white leading-none"
             style={{ fontFamily: 'var(--font-display)' }}>
             THE{' '}
             <span className="text-gold-shimmer" style={{ backgroundSize: '200% auto', animation: 'shimmer 3s linear infinite' }}>
               COLLECTION
             </span>
           </h2>
-          <p className="text-king-white/40 text-sm mt-4 max-w-md mx-auto">
+          <p className="text-white/40 text-sm mt-4 max-w-md mx-auto">
             Three silhouettes. One obsession. Crafted for those who refuse to be ordinary.
           </p>
         </motion.div>
@@ -212,9 +203,8 @@ export default function CollectionSection() {
           ))}
         </div>
 
-        {/* Disclaimer */}
-        <p className="text-center font-mono text-[10px] text-king-white/20 mt-8 tracking-wider">
-          * Fan concept project. Prices are approximate. Visit one8.com for official products.
+        <p className="text-center font-mono text-[10px] text-white/20 mt-8 tracking-wider">
+          * Fan concept project. Product data sourced from one8.com. Visit one8.com for official purchase.
         </p>
       </div>
     </section>

@@ -59,7 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Fan project disclaimer bar */}
         <div
           className="fixed bottom-0 left-0 right-0 z-50 text-center py-1.5 text-xs text-king-gray-lt"
-          style={{ background: 'rgba(10,10,10,0.9)', borderTop: '1px solid rgba(201,168,76,0.1)' }}
+          style={{ background: 'rgba(10,10,10,0.9)', borderTop: '1px solid rgba(192,192,192,0.1)' }}
         >
           ⚡ Fan-made concept project. Not affiliated with Virat Kohli or ONE8. For UI/UX portfolio purposes only.
         </div>

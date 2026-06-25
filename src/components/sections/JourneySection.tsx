@@ -125,7 +125,7 @@ export default function JourneySection() {
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
         <span
           className="font-display text-[25vw] font-bold select-none"
-          style={{ color: 'rgba(201,168,76,0.02)', letterSpacing: '-0.05em' }}
+          style={{ color: 'rgba(192,192,192,0.02)', letterSpacing: '-0.05em' }}
         >
           KING
         </span>
@@ -154,7 +154,7 @@ export default function JourneySection() {
             <div className="absolute inset-0 bg-king-gray-lt/40" />
             <div
               className="timeline-line absolute inset-0"
-              style={{ background: 'linear-gradient(180deg, #C0C0C0, rgba(201,168,76,0.2))' }}
+              style={{ background: 'linear-gradient(180deg, #C0C0C0, rgba(192,192,192,0.2))' }}
             />
           </div>
 
