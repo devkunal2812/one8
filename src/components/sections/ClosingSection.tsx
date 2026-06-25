@@ -74,7 +74,7 @@ export default function ClosingSection() {
               height:    `${Math.random() * 3 + 1}px`,
               left:      `${Math.random() * 100}%`,
               top:       `${Math.random() * 100}%`,
-              background: '#C9A84C',
+              background: '#C0C0C0',
               opacity:   Math.random() * 0.4 + 0.1,
               animation: `particleFly ${Math.random() * 4 + 3}s ease-in-out ${Math.random() * 3}s infinite`,
             }}
@@ -109,7 +109,7 @@ export default function ClosingSection() {
           <span className="w-16 h-px bg-gradient-to-l from-transparent to-king-gold" />
         </motion.div>
 
-        {/* Main headline — word by word reveal */}
+        {/* Main headline  -  word by word reveal */}
         <div
           ref={textRef}
           className="overflow-hidden"
@@ -138,7 +138,7 @@ export default function ClosingSection() {
                 key={i}
                 className="closing-word inline-block opacity-0"
                 style={{
-                  background: 'linear-gradient(135deg, #C9A84C, #E8C97A, #C9A84C)',
+                  background: 'linear-gradient(135deg, #C0C0C0, #E8E8E8, #C0C0C0)',
                   backgroundSize: '200% auto',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',

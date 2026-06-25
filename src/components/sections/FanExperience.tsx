@@ -4,12 +4,12 @@ import { useRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 const COLORWAYS = [
-  { name: 'King Black',    upper: '#111111', midsole: '#C9A84C', sole: '#0A0A0A', laces: '#E8C97A' },
-  { name: 'Championship', upper: '#1a1240', midsole: '#E8C97A', sole: '#111111', laces: '#ffffff' },
-  { name: 'Fire & Steel',  upper: '#8B1A1A', midsole: '#2A2A2A', sole: '#C0392B', laces: '#E8C97A' },
-  { name: 'Ivory King',    upper: '#F0EBE0', midsole: '#C9A84C', sole: '#1a1a1a', laces: '#111111' },
-  { name: 'Phantom',       upper: '#1A1A2E', midsole: '#6C63FF', sole: '#0A0A0A', laces: '#C9A84C' },
-  { name: 'Virat Special', upper: '#C9A84C', midsole: '#111111', sole: '#C9A84C', laces: '#0A0A0A' },
+  { name: 'King Black',    upper: '#111111', midsole: '#C0C0C0', sole: '#0A0A0A', laces: '#E8E8E8' },
+  { name: 'Championship', upper: '#1a1240', midsole: '#E8E8E8', sole: '#111111', laces: '#ffffff' },
+  { name: 'Fire & Steel',  upper: '#8B1A1A', midsole: '#2A2A2A', sole: '#C0392B', laces: '#E8E8E8' },
+  { name: 'Ivory King',    upper: '#F0EBE0', midsole: '#C0C0C0', sole: '#1a1a1a', laces: '#111111' },
+  { name: 'Phantom',       upper: '#1A1A2E', midsole: '#6C63FF', sole: '#0A0A0A', laces: '#C0C0C0' },
+  { name: 'Virat Special', upper: '#C0C0C0', midsole: '#111111', sole: '#C0C0C0', laces: '#0A0A0A' },
 ]
 
 const WALLPAPER_QUOTES = [

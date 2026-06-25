@@ -13,8 +13,8 @@ const config: Config = {
         // ONE8 King Edition Palette
         'king-black':    '#0A0A0A',
         'king-dark':     '#111111',
-        'king-gold':     '#C9A84C',
-        'king-gold-lt':  '#E8C97A',
+        'king-gold':     '#C0C0C0',
+        'king-gold-lt':  '#E8E8E8',
         'king-red':      '#C0392B',
         'king-white':    '#F5F5F0',
         'king-gray':     '#2A2A2A',
@@ -31,9 +31,9 @@ const config: Config = {
         '15xl': ['15rem',  { lineHeight: '0.8' }],
       },
       backgroundImage: {
-        'gold-gradient':    'linear-gradient(135deg, #C9A84C 0%, #E8C97A 50%, #C9A84C 100%)',
+        'gold-gradient':    'linear-gradient(135deg, #C0C0C0 0%, #E8E8E8 50%, #C0C0C0 100%)',
         'dark-gradient':    'linear-gradient(180deg, #0A0A0A 0%, #111111 100%)',
-        'radial-gold':      'radial-gradient(ellipse at center, rgba(201,168,76,0.15) 0%, transparent 70%)',
+        'radial-gold':      'radial-gradient(ellipse at center, rgba(192,192,192,0.15) 0%, transparent 70%)',
       },
       animation: {
         'float':         'float 6s ease-in-out infinite',
@@ -48,8 +48,8 @@ const config: Config = {
           '50%':      { transform: 'translateY(-20px)' },
         },
         pulseGold: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(201,168,76,0.3)' },
-          '50%':      { boxShadow: '0 0 60px rgba(201,168,76,0.8)' },
+          '0%, 100%': { boxShadow: '0 0 20px rgba(192,192,192,0.3)' },
+          '50%':      { boxShadow: '0 0 60px rgba(192,192,192,0.8)' },
         },
         shimmer: {
           '0%':   { backgroundPosition: '-200% center' },

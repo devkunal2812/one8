@@ -124,7 +124,7 @@ export default function HeroSection() {
             className="text-king-white/60 text-base md:text-lg max-w-md leading-relaxed font-light"
           >
             Every step carries the weight of 18,000 runs. Every move echoes a decade of dominance.
-            This is not just footwear — it is a statement.
+            This is not just footwear  -  it is a statement.
           </motion.p>
 
           {/* CTAs */}

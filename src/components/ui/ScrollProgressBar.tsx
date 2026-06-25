@@ -26,7 +26,7 @@ export default function ScrollProgressBar() {
         className="h-full transition-none"
         style={{
           width: `${progress}%`,
-          background: 'linear-gradient(90deg, #C9A84C, #E8C97A)',
+          background: 'linear-gradient(90deg, #C0C0C0, #E8E8E8)',
           boxShadow: '0 0 8px rgba(201,168,76,0.8)',
         }}
       />

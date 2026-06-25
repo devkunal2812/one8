@@ -61,9 +61,9 @@ export function drawGoldText(
 
   const width = ctx.measureText(text).width
   const grad  = ctx.createLinearGradient(x - width / 2, 0, x + width / 2, 0)
-  grad.addColorStop(0,   '#C9A84C')
-  grad.addColorStop(0.5, '#E8C97A')
-  grad.addColorStop(1,   '#C9A84C')
+  grad.addColorStop(0,   '#C0C0C0')
+  grad.addColorStop(0.5, '#E8E8E8')
+  grad.addColorStop(1,   '#C0C0C0')
 
   ctx.fillStyle = grad
   ctx.fillText(text, x, y)

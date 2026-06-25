@@ -13,8 +13,8 @@ const CHAPTERS = [
     title:   'The Dream',
     year:    '1999',
     quote:   'I just wanted to play cricket. That was my only dream.',
-    body:    'A boy from Uttam Nagar, Delhi — who lost his father during a Ranji match and walked back to the crease and scored 90. That night taught him what hunger truly means.',
-    accent:  '#C9A84C',
+    body:    'A boy from Uttam Nagar, Delhi  -  who lost his father during a Ranji match and walked back to the crease and scored 90. That night taught him what hunger truly means.',
+    accent:  '#C0C0C0',
     align:   'left',
   },
   {
@@ -23,7 +23,7 @@ const CHAPTERS = [
     title:   'The Grind',
     year:    '2008–2012',
     quote:   'When you work hard and dedicate yourself, you\'ll get results.',
-    body:    'From a chubby kid mocked at nets to the fittest cricketer on the planet. He rewrote his body, his diet, his entire identity — and became the gold standard of athletic discipline in Indian sport.',
+    body:    'From a chubby kid mocked at nets to the fittest cricketer on the planet. He rewrote his body, his diet, his entire identity  -  and became the gold standard of athletic discipline in Indian sport.',
     accent:  '#C0392B',
     align:   'right',
   },
@@ -34,7 +34,7 @@ const CHAPTERS = [
     year:    '2013–2019',
     quote:   'Self-belief and hard work will always earn you success.',
     body:    'ICC Player of the Year. ICC Cricketer of the Decade. Records that once seemed unreachable, broken like glass. The world stopped debating potential and started witnessing greatness.',
-    accent:  '#C9A84C',
+    accent:  '#C0C0C0',
     align:   'left',
   },
   {
@@ -43,8 +43,8 @@ const CHAPTERS = [
     title:   'The Legacy',
     year:    '2020–Now',
     quote:   'My passion for the game is not going to die.',
-    body:    'Beyond centuries and rankings — a movement. ONE8, philanthropy, fitness culture. He is no longer just a cricketer; he is a generation\'s north star.',
-    accent:  '#E8C97A',
+    body:    'Beyond centuries and rankings  -  a movement. ONE8, philanthropy, fitness culture. He is no longer just a cricketer; he is a generation\'s north star.',
+    accent:  '#E8E8E8',
     align:   'right',
   },
 ]
@@ -154,7 +154,7 @@ export default function JourneySection() {
             <div className="absolute inset-0 bg-king-gray-lt/40" />
             <div
               className="timeline-line absolute inset-0"
-              style={{ background: 'linear-gradient(180deg, #C9A84C, rgba(201,168,76,0.2))' }}
+              style={{ background: 'linear-gradient(180deg, #C0C0C0, rgba(201,168,76,0.2))' }}
             />
           </div>
 

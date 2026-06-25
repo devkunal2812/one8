@@ -30,7 +30,7 @@ function SneakerProxy() {
       {/* Midsole */}
       <mesh position={[0, -0.1, 0]} castShadow>
         <boxGeometry args={[2.2, 0.2, 0.8]} />
-        <meshStandardMaterial color="#C9A84C" roughness={0.4} metalness={0.6} />
+        <meshStandardMaterial color="#C0C0C0" roughness={0.4} metalness={0.6} />
       </mesh>
 
       {/* Upper – main body */}
@@ -54,21 +54,21 @@ function SneakerProxy() {
       {/* Heel counter */}
       <mesh position={[-1.0, 0.05, 0]} castShadow>
         <boxGeometry args={[0.3, 0.45, 0.72]} />
-        <meshStandardMaterial color="#C9A84C" roughness={0.3} metalness={0.7} />
+        <meshStandardMaterial color="#C0C0C0" roughness={0.3} metalness={0.7} />
       </mesh>
 
       {/* Laces */}
       {[-0.3, 0.0, 0.3, 0.6].map((x, i) => (
         <mesh key={i} position={[x, 0.46, 0]} castShadow>
           <cylinderGeometry args={[0.03, 0.03, 0.72, 6]} />
-          <meshStandardMaterial color="#E8C97A" roughness={0.4} metalness={0.8} />
+          <meshStandardMaterial color="#E8E8E8" roughness={0.4} metalness={0.8} />
         </mesh>
       ))}
 
       {/* ONE8 logo plate */}
       <mesh position={[0, 0.0, 0.41]} castShadow>
         <planeGeometry args={[0.6, 0.2]} />
-        <meshStandardMaterial color="#C9A84C" roughness={0.2} metalness={0.9} />
+        <meshStandardMaterial color="#C0C0C0" roughness={0.2} metalness={0.9} />
       </mesh>
     </group>
   )
@@ -91,11 +91,11 @@ export default function Shoe3D() {
         <directionalLight
           position={[5, 5, 5]}
           intensity={1.5}
-          color="#E8C97A"
+          color="#E8E8E8"
           castShadow
         />
         <directionalLight position={[-5, 3, -3]} intensity={0.5} color="#ffffff" />
-        <pointLight position={[0, -2, 2]} intensity={0.8} color="#C9A84C" />
+        <pointLight position={[0, -2, 2]} intensity={0.8} color="#C0C0C0" />
 
         {/* Environment for reflections */}
         <Suspense fallback={null}>
