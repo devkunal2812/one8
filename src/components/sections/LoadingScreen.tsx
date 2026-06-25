@@ -107,7 +107,7 @@ export default function LoadingScreen({ onComplete }: Props) {
       className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
       style={{
         background: '#0A0A0A',
-        opacity:    phase === 'exit' ? 0 : 1,
+        opacity:    1,
         transition: 'opacity 0.8s ease',
       }}
     >
