@@ -8,7 +8,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 // Use our API proxy route - bypasses wikimedia hotlink protection
-const VIRAT_PHOTO_SRC = '/api/virat-photo'
+const VIRAT_PHOTO_SRC = '/images/virat-hero.png'
 
 export default function HeroSection() {
   const sectionRef  = useRef<HTMLElement>(null)
