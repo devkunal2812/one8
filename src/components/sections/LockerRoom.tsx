@@ -246,13 +246,15 @@ function MacWindow({
           backdropFilter: 'blur(32px)',
           border: '1px solid rgba(255,255,255,0.09)',
           borderTop: 'none',
-          maxHeight: '68vh',
-          overflowY: 'scroll',
+          maxHeight: '65vh',
+          overflowY: 'auto',
           overscrollBehavior: 'contain',
           WebkitOverflowScrolling: 'touch',
+          cursor: 'default',
+          touchAction: 'pan-y',
         }}
         onMouseDown={(e) => { onFocus(); e.stopPropagation() }}
-        onWheel={(e) => e.stopPropagation()}
+        onPointerDown={(e) => { onFocus(); e.stopPropagation() }}
       >
         {/* Header */}
         <div className="px-5 pt-5 pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
@@ -429,7 +431,7 @@ export default function LockerRoomClient() {
   useEffect(() => { setMounted(true) }, [])
 
   return (
-    <div className="fixed inset-0 overflow-hidden select-none" style={{ background: '#050505' }}>
+    <div className="fixed inset-0 overflow-hidden" style={{ background: '#050505' }}>
 
       {/* ── Background: dark cricket stadium feel (no photo = cinematic) ── */}
       <div className="absolute inset-0 z-0">
