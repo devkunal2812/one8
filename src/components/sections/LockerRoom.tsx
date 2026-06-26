@@ -120,7 +120,7 @@ const DESKTOP_ICONS: {
   },
   {
     id: 'career-stats', label: 'Career Stats.csv',
-    defaultX: window?.innerWidth ? window.innerWidth - 120 : 1180, defaultY: 120,
+    defaultX: 1180, defaultY: 120,
     Icon: StatsSVG,
     win: {
       id: 'career-stats', title: 'Career Statistics', subtitle: 'Virat Kohli — All International Formats',
@@ -131,7 +131,7 @@ const DESKTOP_ICONS: {
   },
   {
     id: 'journey', label: 'The Journey.mov',
-    defaultX: window?.innerWidth ? window.innerWidth - 120 : 1180, defaultY: 260,
+    defaultX: 1180, defaultY: 260,
     Icon: JourneySVG,
     win: {
       id: 'journey', title: "The Journey", subtitle: 'From Delhi to the World — 2002 to Present',
@@ -142,7 +142,7 @@ const DESKTOP_ICONS: {
   },
   {
     id: 'fitness', label: 'Fitness Protocol',
-    defaultX: window?.innerWidth ? window.innerWidth - 120 : 1180, defaultY: 400,
+    defaultX: 1180, defaultY: 400,
     Icon: FitnessSVG,
     win: {
       id: 'fitness', title: 'Fitness Protocol', subtitle: "Virat Kohli's Training System",
@@ -153,7 +153,7 @@ const DESKTOP_ICONS: {
   },
   {
     id: 'one8-brand', label: 'ONE8 Brand Story',
-    defaultX: window?.innerWidth ? window.innerWidth / 2 - 60 : 620, defaultY: 500,
+    defaultX: 620, defaultY: 500,
     Icon: CrownSVG,
     win: {
       id: 'one8-brand', title: 'ONE8', subtitle: "Virat Kohli's Lifestyle Brand",
@@ -165,7 +165,7 @@ const DESKTOP_ICONS: {
   },
   {
     id: 'records', label: 'Cricket Records',
-    defaultX: window?.innerWidth ? window.innerWidth / 2 - 60 : 620, defaultY: 120,
+    defaultX: 620, defaultY: 120,
     Icon: CricketSVG,
     win: {
       id: 'records', title: 'Cricket Records', subtitle: 'Records that may never be broken',
@@ -311,6 +311,15 @@ function DesktopIcon({
   const ref  = useRef<HTMLDivElement>(null)
   const drag = useRef({ on: false, moved: false, ox: 0, oy: 0 })
   const [pos, setPos] = useState({ x: item.defaultX, y: item.defaultY })
+
+  // Correct right-side icon positions after mount using real window width
+  useEffect(() => {
+    if (item.defaultX >= 1100) {
+      setPos(p => ({ ...p, x: window.innerWidth - 120 }))
+    } else if (item.defaultX >= 600 && item.defaultX < 700) {
+      setPos(p => ({ ...p, x: window.innerWidth / 2 - 60 }))
+    }
+  }, [item.defaultX])
   const [active, setActive] = useState(false)
 
   useEffect(() => {
