@@ -143,6 +143,93 @@ function ShoeCustomizer() {
   )
 }
 
+
+// ── Tab 1: Locker Room Entry ───────────────────────────────────────
+function LockerRoomEntry() {
+  return (
+    <div className="flex flex-col items-center gap-6 py-4 text-center">
+      {/* Preview thumbnail */}
+      <div className="relative w-full rounded-xl overflow-hidden" style={{ aspectRatio: '16/9' }}>
+        <img
+          src="/images/virat-hero.png"
+          alt="Locker Room Preview"
+          className="w-full h-full object-cover object-center"
+          style={{ filter: 'brightness(0.3) saturate(0.5)' }}
+        />
+        {/* Overlay icons preview */}
+        <div className="absolute inset-0 flex items-center justify-center gap-4">
+          {[
+            { label: 'Products', color: '#C0C0C0' },
+            { label: 'Stats',    color: '#E8E8E8' },
+            { label: 'Journey',  color: '#C0C0C0' },
+          ].map((item) => (
+            <div key={item.label}
+              className="flex flex-col items-center gap-1.5"
+              style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.8))' }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+                style={{ background: 'rgba(30,30,30,0.8)', border: '1px solid rgba(192,192,192,0.3)' }}>
+                <svg viewBox="0 0 20 20" fill="none" stroke={item.color} strokeWidth="1.5" className="w-5 h-5">
+                  <rect x="2" y="3" width="16" height="14" rx="2"/>
+                  <path d="M6 3v14M2 8h4"/>
+                </svg>
+              </div>
+              <span className="font-mono text-[9px] text-white/70" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>
+                {item.label}
+              </span>
+            </div>
+          ))}
+        </div>
+        {/* macOS menubar */}
+        <div className="absolute top-0 left-0 right-0 px-3 py-1.5 flex items-center gap-2"
+          style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(10px)' }}>
+          <div className="w-2 h-2 rounded-full" style={{ background: '#FF5F57' }} />
+          <div className="w-2 h-2 rounded-full" style={{ background: '#FEBC2E' }} />
+          <div className="w-2 h-2 rounded-full" style={{ background: '#28C840' }} />
+          <span className="font-mono text-[9px] text-white/40 ml-2">Virat's Locker Room</span>
+        </div>
+      </div>
+
+      <div>
+        <h4 className="font-display text-2xl text-white mb-2" style={{ fontFamily: 'var(--font-display)' }}>
+          VIRAT'S LOCKER ROOM
+        </h4>
+        <p className="text-white/50 text-sm leading-relaxed max-w-sm">
+          An interactive macOS-style desktop experience. Click icons to explore products, stats, and the journey. Drag windows. Feel the world of ONE8.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-2 w-full text-left">
+        {[
+          '8 interactive desktop icons',
+          'Draggable macOS-style windows',
+          'Real ONE8 product details',
+          'Career stats, journey timeline',
+        ].map((f) => (
+          <div key={f} className="flex items-center gap-3 font-mono text-[11px] text-white/50">
+            <svg viewBox="0 0 12 12" fill="none" className="w-3 h-3 flex-shrink-0">
+              <circle cx="6" cy="6" r="5" stroke="#C0C0C0" strokeWidth="1"/>
+              <path d="M3.5 6l2 2 3-3" stroke="#C0C0C0" strokeWidth="1.2" strokeLinecap="round"/>
+            </svg>
+            {f}
+          </div>
+        ))}
+      </div>
+
+      <a
+        href="/locker-room"
+        className="btn-primary w-full py-4 text-sm rounded-sm text-center inline-flex items-center justify-center gap-3 group"
+      >
+        <span>Enter the Locker Room</span>
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"
+          strokeLinecap="round" strokeLinejoin="round"
+          className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200">
+          <path d="M4 10h12M11 5l5 5-5 5"/>
+        </svg>
+      </a>
+    </div>
+  )
+}
+
 // ── Tab 2: Shoe Quiz ───────────────────────────────────────────────
 function ShoeQuiz() {
   const [step, setStep]       = useState(0)
@@ -332,14 +419,15 @@ function WallpaperGen() {
 // ── Main section ───────────────────────────────────────────────────
 const TABS = [
   {
-    id: 'customizer',
-    label: 'Shoe Customizer',
+    id: 'locker-room',
+    label: 'Locker Room',
     icon: (
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-        <circle cx="13" cy="7" r="4" /><path d="M1 19l8-8" />
+        <rect x="2" y="3" width="16" height="14" rx="2"/>
+        <path d="M7 3v14M2 8h5M2 12h5"/>
       </svg>
     ),
-    sub: 'Design your colorway',
+    sub: 'Interactive desktop experience',
   },
   {
     id: 'quiz',
@@ -364,7 +452,7 @@ const TABS = [
 ]
 
 export default function FanExperience() {
-  const [activeTab, setActiveTab] = useState('customizer')
+  const [activeTab, setActiveTab] = useState('locker-room')
 
   return (
     <section id="fan-experience" className="section-padding overflow-hidden" style={{ background: '#0D0D0D' }}>
@@ -431,7 +519,7 @@ export default function FanExperience() {
           transition={{ duration: 0.35 }}
           className="glass-card p-6 md:p-8 max-w-2xl mx-auto"
         >
-          {activeTab === 'customizer' && <ShoeCustomizer />}
+          {activeTab === 'locker-room' && <LockerRoomEntry />}
           {activeTab === 'quiz'       && <ShoeQuiz />}
           {activeTab === 'wallpaper'  && <WallpaperGen />}
         </motion.div>
