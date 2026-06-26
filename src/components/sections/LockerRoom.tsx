@@ -190,10 +190,10 @@ function MacWindow({
   const bodyRef = useRef<HTMLDivElement>(null)
 
   const startDrag = (e: React.MouseEvent) => {
-    // Only drag from title bar, not body
     drag.current = { on: true, ox: e.clientX - pos.x, oy: e.clientY - pos.y }
-    onFocus()
+    onFocus()  // bring to front
     e.preventDefault()
+    e.stopPropagation()
   }
 
   useEffect(() => {
@@ -218,7 +218,7 @@ function MacWindow({
         zIndex, width: 380, maxWidth: 'calc(100vw - 24px)',
       }}
       className="select-none"
-      onMouseDown={onFocus}
+      onMouseDown={onFocus}  // catch any missed clicks
     >
       {/* Title bar — drag handle */}
       <div
@@ -249,7 +249,7 @@ function MacWindow({
           // Critical: allow scroll inside window without triggering drag
           overscrollBehavior: 'contain',
         }}
-        onMouseDown={(e) => e.stopPropagation()}
+        onMouseDown={(e) => { onFocus(); e.stopPropagation() }}
       >
         {/* Header */}
         <div className="px-5 pt-5 pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
