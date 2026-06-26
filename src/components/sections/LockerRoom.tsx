@@ -189,9 +189,10 @@ function MacWindow({
   const drag = useRef({ on: false, ox: 0, oy: 0 })
   const bodyRef = useRef<HTMLDivElement>(null)
 
-  const startDrag = (e: React.MouseEvent) => {
+  const startDrag = (e: React.PointerEvent) => {
     drag.current = { on: true, ox: e.clientX - pos.x, oy: e.clientY - pos.y }
-    onFocus()  // bring to front
+    onFocus()
+    ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
     e.preventDefault()
     e.stopPropagation()
   }
@@ -224,7 +225,7 @@ function MacWindow({
       <div
         className="flex items-center gap-2 px-3 py-2.5 rounded-t-xl cursor-grab active:cursor-grabbing"
         style={{ background: 'rgba(28,28,30,0.98)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}
-        onMouseDown={startDrag}
+        onPointerDown={startDrag}
       >
         <button
           onClick={(e) => { e.stopPropagation(); onClose() }}
@@ -239,17 +240,19 @@ function MacWindow({
       {/* Window body — SCROLLABLE */}
       <div
         ref={bodyRef}
-        className="rounded-b-xl overflow-y-auto"
+        className="rounded-b-xl"
         style={{
           background: 'rgba(18,18,20,0.97)',
           backdropFilter: 'blur(32px)',
           border: '1px solid rgba(255,255,255,0.09)',
           borderTop: 'none',
-          maxHeight: '70vh',
-          // Critical: allow scroll inside window without triggering drag
+          maxHeight: '68vh',
+          overflowY: 'scroll',
           overscrollBehavior: 'contain',
+          WebkitOverflowScrolling: 'touch',
         }}
         onMouseDown={(e) => { onFocus(); e.stopPropagation() }}
+        onWheel={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="px-5 pt-5 pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
@@ -345,17 +348,18 @@ function DesktopIcon({
     return () => { window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', up) }
   }, [item, onOpen])
 
-  const onMouseDown = (e: React.MouseEvent) => {
+  const onPointerDown = (e: React.PointerEvent) => {
     const rect = ref.current!.getBoundingClientRect()
     drag.current = { on: true, moved: false, ox: e.clientX - rect.left, oy: e.clientY - rect.top }
     setActive(true)
+    ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
     e.preventDefault()
   }
 
   return (
     <div
       ref={ref}
-      onMouseDown={onMouseDown}
+      onPointerDown={onPointerDown}
       className="absolute flex flex-col items-center gap-1.5 cursor-pointer select-none"
       style={{ left: pos.x, top: pos.y, transform: 'translate(-50%, 0)', zIndex: active ? 500 : 10 }}
     >
