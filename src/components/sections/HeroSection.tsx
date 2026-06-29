@@ -207,15 +207,26 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - mouse icon */}
       <motion.div
         initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-        transition={{ delay: 2.0 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        transition={{ delay: 2.2 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
       >
-        <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-white/25">Scroll</span>
-        <div className="w-px h-10 animate-pulse"
-          style={{ background: 'linear-gradient(180deg, #C0C0C0, transparent)' }} />
+        {/* Mouse outline */}
+        <div style={{
+          width: 22, height: 34, borderRadius: 11,
+          border: '1.5px solid rgba(192,192,192,0.35)',
+          display: 'flex', justifyContent: 'center', paddingTop: 5,
+        }}>
+          {/* Scroll wheel dot */}
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+            style={{ width: 3, height: 3, borderRadius: '50%', background: '#C0C0C0' }}
+          />
+        </div>
+        <span className="font-mono text-[9px] uppercase tracking-[0.4em] text-white/22">Scroll</span>
       </motion.div>
     </section>
   )
