@@ -54,7 +54,7 @@ export default function GoldButton({
   const variantClasses = {
     primary:   'btn-primary',
     secondary: 'btn-secondary',
-    ghost:     'bg-transparent text-king-white/60 hover:text-white border border-transparent hover:border-white/30 transition-all duration-300',
+    ghost:     'bg-transparent text-white/55 hover:text-white border border-transparent hover:border-white/30 transition-all duration-300',
   }[variant]
 
   const baseClass = cn(

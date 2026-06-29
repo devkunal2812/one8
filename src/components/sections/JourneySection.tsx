@@ -134,10 +134,10 @@ export default function JourneySection() {
       <div className="max-w-7xl mx-auto px-6">
         {/* Heading */}
         <div className="journey-heading text-center mb-20">
-          <span className="font-mono text-xs tracking-[0.5em] uppercase text-king-gold block mb-4">
+          <span className="font-mono text-xs tracking-[0.5em] uppercase text-white/55 block mb-4">
             The Story
           </span>
-          <h2 className="font-display text-[4rem] md:text-[6rem] text-king-white leading-none"
+          <h2 className="font-display text-[4rem] md:text-[6rem] text-white leading-none"
             style={{ fontFamily: 'var(--font-display)' }}>
             VIRAT'S
             <br />
@@ -168,7 +168,7 @@ export default function JourneySection() {
               >
                 {/* Timeline dot */}
                 <div
-                  className="hidden lg:block absolute top-8 w-3 h-3 rounded-full border-2 border-king-gold bg-king-black"
+                  className="hidden lg:block absolute top-8 w-3 h-3 rounded-full border-2 border-white/30 bg-[#0A0A0A]"
                   style={{
                     [ch.align === 'right' ? 'left' : 'right']: '-7.5%',
                     boxShadow: `0 0 12px ${ch.accent}`,
@@ -188,28 +188,28 @@ export default function JourneySection() {
                   {/* Top row */}
                   <div className="flex items-start justify-between mb-6 relative z-10">
                     <div>
-                      <span className="font-mono text-xs tracking-[0.4em] uppercase text-king-gold block mb-1">
+                      <span className="font-mono text-xs tracking-[0.4em] uppercase text-white/55 block mb-1">
                         Chapter {ch.number}
                       </span>
-                      <h3 className="font-display text-4xl md:text-5xl text-king-white"
+                      <h3 className="font-display text-4xl md:text-5xl text-white"
                         style={{ fontFamily: 'var(--font-display)' }}>
                         {ch.title}
                       </h3>
                     </div>
-                    <span className="font-mono text-sm text-king-white/30 mt-2">{ch.year}</span>
+                    <span className="font-mono text-sm text-white/30 mt-2">{ch.year}</span>
                   </div>
 
                   {/* Gold divider */}
                   <div className="w-12 h-px mb-6 relative z-10" style={{ background: ch.accent }} />
 
                   {/* Quote */}
-                  <blockquote className="text-king-white/80 text-lg italic leading-relaxed mb-4 relative z-10 border-l-2 pl-4"
+                  <blockquote className="text-white/80 text-lg italic leading-relaxed mb-4 relative z-10 border-l-2 pl-4"
                     style={{ borderColor: ch.accent }}>
                     "{ch.quote}"
                   </blockquote>
 
                   {/* Body */}
-                  <p className="text-king-white/50 text-sm leading-relaxed relative z-10">
+                  <p className="text-white/50 text-sm leading-relaxed relative z-10">
                     {ch.body}
                   </p>
 

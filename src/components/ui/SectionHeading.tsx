@@ -36,11 +36,11 @@ export default function SectionHeading({
     >
       {/* Eyebrow */}
       <div className="flex items-center gap-3">
-        {align !== 'right' && <span className="w-8 h-px bg-king-gold" />}
-        <span className="font-mono text-xs tracking-[0.5em] uppercase text-king-gold">
+        {align !== 'right' && <span className="w-8 h-px bg-white/40" />}
+        <span className="font-mono text-xs tracking-[0.5em] uppercase text-white/60">
           {eyebrow}
         </span>
-        {align !== 'left' && <span className="w-8 h-px bg-king-gold" />}
+        {align !== 'left' && <span className="w-8 h-px bg-white/40" />}
       </div>
 
       {/* Headline */}
@@ -51,7 +51,7 @@ export default function SectionHeading({
           fontSize: 'clamp(2.8rem, 7vw, 6rem)',
         }}
       >
-        <span className="text-king-white">{title} </span>
+        <span className="text-white">{title} </span>
         <span
           className="text-gold-shimmer"
           style={{
@@ -65,7 +65,7 @@ export default function SectionHeading({
 
       {/* Subtitle */}
       {subtitle && (
-        <p className="text-king-white/40 text-sm md:text-base max-w-md leading-relaxed font-light">
+        <p className="text-white/40 text-sm md:text-base max-w-md leading-relaxed font-light">
           {subtitle}
         </p>
       )}

@@ -2,166 +2,125 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-interface Props {
-  onComplete: () => void
-}
+interface Props { onComplete: () => void }
 
-/**
- * LoadingScreen
- * Cinematic black screen → particle field → stadium lights gradually on → "Greatness Awaits."
- */
 export default function LoadingScreen({ onComplete }: Props) {
-  const canvasRef   = useRef<HTMLCanvasElement>(null)
-  const [phase, setPhase]   = useState<'dark' | 'particles' | 'lights' | 'text' | 'exit'>('dark')
-  const [textOpacity, setTextOpacity] = useState(0)
-  const [lightsOn,    setLightsOn]    = useState(0) // 0–1
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [phase, setPhase]         = useState<'dark'|'particles'|'lights'|'text'|'done'>('dark')
+  const [lightsOn,  setLightsOn]  = useState(0)
+  const [textAlpha, setTextAlpha] = useState(0)
 
-  // ── Particle system ──────────────────────────────────────────────
+  /* particle canvas */
   useEffect(() => {
     const canvas = canvasRef.current!
     const ctx    = canvas.getContext('2d')!
     canvas.width  = window.innerWidth
     canvas.height = window.innerHeight
-
-    interface Particle {
-      x: number; y: number
-      vx: number; vy: number
-      size: number; opacity: number; life: number
-    }
-
-    const particles: Particle[] = Array.from({ length: 120 }, () => ({
-      x:       Math.random() * canvas.width,
-      y:       canvas.height + Math.random() * 100,
-      vx:      (Math.random() - 0.5) * 0.6,
-      vy:      -(Math.random() * 1.5 + 0.5),
-      size:    Math.random() * 2.5 + 0.5,
-      opacity: Math.random() * 0.8 + 0.2,
-      life:    Math.random(),
-    }))
-
     let active = true
+
+    interface P { x:number; y:number; vx:number; vy:number; r:number; a:number; life:number }
+    const pts: P[] = Array.from({ length: 140 }, () => ({
+      x: Math.random() * canvas.width,
+      y: canvas.height + Math.random() * 60,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: -(Math.random() * 1.4 + 0.4),
+      r: Math.random() * 2 + 0.5,
+      a: Math.random() * 0.7 + 0.2,
+      life: Math.random(),
+    }))
 
     const draw = () => {
       if (!active) return
       ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-      for (const p of particles) {
-        p.x    += p.vx
-        p.y    += p.vy
-        p.life  -= 0.003
-
-        if (p.y < -20 || p.life <= 0) {
-          p.x      = Math.random() * canvas.width
-          p.y      = canvas.height + 10
-          p.life   = 1
-          p.vx     = (Math.random() - 0.5) * 0.6
-          p.vy     = -(Math.random() * 1.5 + 0.5)
+      pts.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.life -= 0.0025
+        if (p.y < -10 || p.life <= 0) {
+          p.x = Math.random() * canvas.width
+          p.y = canvas.height + 5
+          p.life = 1
         }
-
         ctx.beginPath()
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(192,192,192,${p.opacity * p.life})`
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(192,192,192,${p.a * p.life})`
         ctx.fill()
-      }
-
+      })
       requestAnimationFrame(draw)
     }
-
     draw()
     return () => { active = false }
   }, [])
 
-  // ── Phase timeline ───────────────────────────────────────────────
+  /* phase timeline */
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase('particles'), 400)
-    const t2 = setTimeout(() => setPhase('lights'),    1600)
-    // Lights ramp up
-    const t3 = setTimeout(() => {
-      let l = 0
-      const ramp = setInterval(() => {
-        l = Math.min(l + 0.04, 1)
-        setLightsOn(l)
-        if (l >= 1) clearInterval(ramp)
-      }, 30)
-    }, 1600)
-    const t4 = setTimeout(() => {
-      setPhase('text')
-      setTextOpacity(0)
-      let o = 0
-      const fade = setInterval(() => {
-        o = Math.min(o + 0.04, 1)
-        setTextOpacity(o)
-        if (o >= 1) clearInterval(fade)
-      }, 25)
-    }, 2600)
-    const t5 = setTimeout(() => setPhase('exit'), 4200)
-    const t6 = setTimeout(() => onComplete(),     5000)
-
-    return () => [t1,t2,t3,t4,t5,t6].forEach(clearTimeout)
+    const t = [
+      setTimeout(() => setPhase('particles'), 300),
+      setTimeout(() => setPhase('lights'), 1200),
+      setTimeout(() => {
+        let l = 0
+        const iv = setInterval(() => { l = Math.min(l + 0.03, 1); setLightsOn(l); if (l >= 1) clearInterval(iv) }, 25)
+      }, 1200),
+      setTimeout(() => {
+        setPhase('text')
+        let a = 0
+        const iv = setInterval(() => { a = Math.min(a + 0.04, 1); setTextAlpha(a); if (a >= 1) clearInterval(iv) }, 20)
+      }, 2400),
+      setTimeout(() => setPhase('done'), 3900),
+      setTimeout(() => onComplete(), 4500),
+    ]
+    return () => t.forEach(clearTimeout)
   }, [onComplete])
 
-  if (phase === 'exit') return null  // unmount after fade
+  if (phase === 'done') return null
 
   return (
-    <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
-      style={{
-        background: '#0A0A0A',
-        opacity:    1,
-        transition: 'opacity 0.8s ease',
-      }}
-    >
-      {/* Particle canvas */}
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#060608]"
+      style={{ opacity: phase === 'done' ? 0 : 1, transition: 'opacity 0.6s ease' }}>
+
+      {/* particles */}
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
 
-      {/* Stadium light rays */}
+      {/* stadium lights */}
       {phase !== 'dark' && (
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            opacity: lightsOn * 0.35,
-            background: `
-              radial-gradient(ellipse 60% 40% at 15% 0%,  rgba(192,192,192,0.5) 0%, transparent 70%),
-              radial-gradient(ellipse 60% 40% at 85% 0%,  rgba(192,192,192,0.5) 0%, transparent 70%),
-              radial-gradient(ellipse 40% 30% at 50% 0%,  rgba(255,240,200,0.3) 0%, transparent 60%)
-            `,
-            transition: 'opacity 0.1s linear',
-          }}
-        />
+        <div className="absolute inset-0 pointer-events-none" style={{
+          opacity: lightsOn * 0.3,
+          background: `
+            radial-gradient(ellipse 55% 35% at 18% 0%, rgba(192,192,192,0.55) 0%, transparent 65%),
+            radial-gradient(ellipse 55% 35% at 82% 0%, rgba(192,192,192,0.55) 0%, transparent 65%),
+            radial-gradient(ellipse 35% 25% at 50% 0%, rgba(255,255,255,0.3) 0%, transparent 55%)
+          `,
+        }} />
       )}
 
-      {/* Center content */}
-      <div className="relative z-10 flex flex-col items-center gap-4">
-        {/* ONE8 logomark */}
+      {/* center */}
+      <div className="relative z-10 flex flex-col items-center gap-5">
+        {/* ONE8 wordmark */}
         <div
-          className="font-display text-6xl md:text-8xl tracking-[0.4em] text-king-gold"
+          className="font-display tracking-[0.45em] text-white"
           style={{
-            opacity:    phase === 'dark' ? 0 : Math.min(lightsOn * 2, 1),
-            transition: 'opacity 0.5s ease',
-            textShadow: `0 0 ${lightsOn * 60}px rgba(192,192,192,${lightsOn * 0.8})`,
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(3.5rem,10vw,6rem)',
+            opacity: phase === 'dark' ? 0 : Math.min(lightsOn * 2, 1),
+            transition: 'opacity 0.4s ease',
+            textShadow: `0 0 ${lightsOn * 70}px rgba(192,192,192,${lightsOn * 0.7}), 0 0 ${lightsOn * 140}px rgba(192,192,192,${lightsOn * 0.3})`,
           }}
         >
           ONE8
         </div>
 
-        {/* Tagline */}
-        <div
-          className="font-mono text-sm md:text-base tracking-[0.6em] uppercase text-king-white"
-          style={{ opacity: textOpacity, transition: 'none', letterSpacing: '0.6em' }}
-        >
+        {/* tagline */}
+        <div className="font-mono text-sm md:text-base uppercase tracking-[0.55em] text-white/80"
+          style={{ opacity: textAlpha }}>
           Greatness Awaits.
         </div>
 
-        {/* Loading bar */}
-        <div className="w-48 h-px bg-king-gray mt-4 overflow-hidden">
-          <div
-            className="h-full bg-king-gold"
+        {/* progress bar */}
+        <div className="w-40 h-px mt-3 rounded-full overflow-hidden" style={{ background: 'rgba(192,192,192,0.15)' }}>
+          <div className="h-full rounded-full transition-none"
             style={{
-              width:      `${lightsOn * 100}%`,
-              transition: 'width 0.1s linear',
-              boxShadow:  '0 0 8px rgba(192,192,192,0.8)',
-            }}
-          />
+              width: `${lightsOn * 100}%`,
+              background: 'linear-gradient(90deg, #C0C0C0, #E8E8E8)',
+              boxShadow: '0 0 10px rgba(192,192,192,0.9)',
+            }} />
         </div>
       </div>
     </div>

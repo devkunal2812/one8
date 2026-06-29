@@ -38,7 +38,7 @@ export default function HeroSection() {
     >
       {/* Background */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-king-black" />
+        <div className="absolute inset-0 bg-[#0A0A0A]" />
         <div className="absolute inset-0" style={{
           background: `
             radial-gradient(ellipse 80% 60% at 50% 100%, rgba(192,192,192,0.07) 0%, transparent 70%),

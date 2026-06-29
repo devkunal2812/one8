@@ -4,7 +4,7 @@ import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
-// Real ONE8 products — data fetched directly from one8.com
+// Real ONE8 products - data fetched directly from one8.com
 const PRODUCTS = [
   {
     id:       'cover-drive-18-pro',

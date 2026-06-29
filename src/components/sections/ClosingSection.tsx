@@ -123,13 +123,13 @@ export default function ClosingSection() {
             }}
           >
             {['GREATNESS', "ISN'T", 'GIVEN.'].map((word, i) => (
-              <span key={i} className="closing-word inline-block mr-[0.15em] text-king-white opacity-0">
+              <span key={i} className="closing-word inline-block mr-[0.15em] text-white opacity-0">
                 {word}
               </span>
             ))}
             <br />
             {["IT'S"].map((word, i) => (
-              <span key={i} className="closing-word inline-block mr-[0.15em] text-king-white opacity-0">
+              <span key={i} className="closing-word inline-block mr-[0.15em] text-white opacity-0">
                 {word}
               </span>
             ))}
@@ -158,7 +158,7 @@ export default function ClosingSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.8, duration: 0.7 }}
-          className="text-king-white/50 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-12 font-light"
+          className="text-white/50 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-12 font-light"
         >
           Every run scored at 4 AM. Every sprint when the body said stop.
           Every century when it mattered most. This is not luck.

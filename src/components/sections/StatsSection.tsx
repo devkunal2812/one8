@@ -115,7 +115,7 @@ function StatCard({ stat, index }: { stat: typeof STATS[0]; index: number }) {
       </div>
 
       {/* Label */}
-      <span className="font-mono text-xs uppercase tracking-[0.25em] text-king-white/50 leading-relaxed">
+      <span className="font-mono text-xs uppercase tracking-[0.25em] text-white/50 leading-relaxed">
         {stat.label}
       </span>
 
@@ -155,16 +155,16 @@ export default function StatsSection() {
         >
           <div className="inline-flex items-center gap-3 glass-card px-6 py-2 mb-8">
             <span className="w-2 h-2 rounded-full bg-king-red animate-pulse" />
-            <span className="font-mono text-xs tracking-widest uppercase text-king-white/60">Live Career Stats</span>
+            <span className="font-mono text-xs tracking-widest uppercase text-white/60">Live Career Stats</span>
           </div>
-          <h2 className="font-display text-[3.5rem] md:text-[5.5rem] text-king-white leading-none"
+          <h2 className="font-display text-[3.5rem] md:text-[5.5rem] text-white leading-none"
             style={{ fontFamily: 'var(--font-display)' }}>
             BY THE{' '}
             <span className="text-gold-shimmer" style={{ backgroundSize: '200% auto', animation: 'shimmer 3s linear infinite' }}>
               NUMBERS
             </span>
           </h2>
-          <p className="text-king-white/40 text-sm mt-4 max-w-md mx-auto">
+          <p className="text-white/40 text-sm mt-4 max-w-md mx-auto">
             Stats don't lie. Neither does greatness.
           </p>
         </motion.div>
@@ -178,10 +178,10 @@ export default function StatsSection() {
               <span className="w-3 h-3 rounded-full" style={{ background: 'rgba(192,192,192,0.7)' }} />
               <span className="w-3 h-3 rounded-full bg-green-500/70" />
             </div>
-            <span className="font-mono text-xs tracking-widest text-king-white/30 uppercase">
+            <span className="font-mono text-xs tracking-widest text-white/30 uppercase">
               Virat Kohli - Career Overview
             </span>
-            <span className="font-mono text-xs text-king-white/30">2024</span>
+            <span className="font-mono text-xs text-white/30">2024</span>
           </div>
 
           {/* Stats grid */}
@@ -208,9 +208,9 @@ export default function StatsSection() {
             <div key={f.label} className="glass-card px-6 py-4 flex items-center gap-4">
               <div className="w-1 h-12 rounded-full" style={{ background: 'linear-gradient(180deg, #C0C0C0, transparent)' }} />
               <div>
-                <div className="font-mono text-[10px] uppercase tracking-widest text-king-white/40">{f.label}</div>
+                <div className="font-mono text-[10px] uppercase tracking-widest text-white/40">{f.label}</div>
                 <div className="font-display text-2xl mt-1" style={{ color: '#C0C0C0', fontFamily: 'var(--font-display)' }}>{f.value}</div>
-                <div className="font-mono text-[10px] text-king-white/30">{f.sub}</div>
+                <div className="font-mono text-[10px] text-white/30">{f.sub}</div>
               </div>
             </div>
           ))}
