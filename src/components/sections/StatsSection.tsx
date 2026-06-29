@@ -102,7 +102,7 @@ function StatCard({ stat, index }: { stat: typeof STATS[0]; index: number }) {
           </span>
         )}
         <span
-          className="font-display text-5xl md:text-6xl tabular-nums"
+          className="font-display tabular-nums" style={{ fontSize: 'clamp(2.5rem, 8vw, 4rem)' }}
           style={{ color: stat.color, fontFamily: 'var(--font-display)', textShadow: `0 0 30px ${stat.color}40` }}
         >
           {count.toLocaleString('en-IN')}
@@ -154,7 +154,7 @@ export default function StatsSection() {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-3 glass-card px-6 py-2 mb-8">
-            <span className="w-2 h-2 rounded-full bg-king-red animate-pulse" />
+            <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#C0392B" }} />
             <span className="font-mono text-xs tracking-widest uppercase text-white/60">Live Career Stats</span>
           </div>
           <h2 className="font-display text-[3.5rem] md:text-[5.5rem] text-white leading-none"
@@ -174,7 +174,7 @@ export default function StatsSection() {
           {/* Header bar */}
           <div className="flex items-center justify-between px-6 py-3 border-b border-white/5">
             <div className="flex gap-2">
-              <span className="w-3 h-3 rounded-full bg-king-red/70" />
+              <span className="w-3 h-3 rounded-full" style={{ background: "rgba(192,57,43,0.7)" }} />
               <span className="w-3 h-3 rounded-full" style={{ background: 'rgba(192,192,192,0.7)' }} />
               <span className="w-3 h-3 rounded-full bg-green-500/70" />
             </div>

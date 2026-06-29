@@ -191,7 +191,7 @@ export default function JourneySection() {
                       <span className="font-mono text-xs tracking-[0.4em] uppercase text-white/55 block mb-1">
                         Chapter {ch.number}
                       </span>
-                      <h3 className="font-display text-4xl md:text-5xl text-white"
+                      <h3 className="font-display text-3xl md:text-5xl text-white"
                         style={{ fontFamily: 'var(--font-display)' }}>
                         {ch.title}
                       </h3>

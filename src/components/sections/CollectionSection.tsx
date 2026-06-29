@@ -98,6 +98,7 @@ function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: n
             className="object-contain p-4 group-hover:scale-110 transition-transform duration-700"
             sizes="(max-width: 768px) 100vw, 33vw"
             unoptimized
+          onError={(e) => { (e.target as HTMLImageElement).style.opacity = "0.3" }}
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f]/70 via-transparent to-transparent pointer-events-none" />

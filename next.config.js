@@ -9,8 +9,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'one8.com' },
     ],
     formats: ['image/avif', 'image/webp'],
-    unoptimized: false,
+    unoptimized: true,
   },
 }
-
 module.exports = nextConfig
