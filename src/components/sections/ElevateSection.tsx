@@ -127,7 +127,7 @@ export default function ElevateSection() {
 
               <video
                 ref={videoRef}
-                src="/videos/wheel-carousel.mp4"
+                src="/videos/animo-wheel-carousel-2160p(1).mp4"
                 muted
                 loop
                 playsInline
