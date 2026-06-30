@@ -145,10 +145,6 @@ function LockerRoomEntry() {
       <a href="/locker-room"
         className="btn-primary w-full py-4 text-sm rounded-sm text-center inline-flex items-center justify-center gap-3 group">
         <span>Enter the Locker Room</span>
-        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-          className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200">
-          <path d="M4 10h12M11 5l5 5-5 5"/>
-        </svg>
       </a>
     </div>
   )

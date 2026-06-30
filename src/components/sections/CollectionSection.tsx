@@ -224,14 +224,6 @@ export default function CollectionSection() {
             className="btn-secondary px-10 py-4 text-sm rounded-sm inline-flex items-center gap-3 group"
           >
             <span>View Full Collection</span>
-            {/* Arrow SVG */}
-            <svg
-              viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"
-              strokeLinecap="round" strokeLinejoin="round"
-              className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200"
-            >
-              <path d="M4 10h12M11 5l5 5-5 5" />
-            </svg>
           </a>
           <p className="font-mono text-[10px] text-white/20 tracking-wider">
             20+ styles available on one8.com
