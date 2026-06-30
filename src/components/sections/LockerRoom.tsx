@@ -250,10 +250,13 @@ function WinBody({ data, onClose }: { data: WinData; onClose: () => void }) {
         borderRadius: '0 0 14px 14px',
         maxHeight: '60vh',
         overflowY: 'auto',
+        overflowX: 'hidden',
         overscrollBehavior: 'contain',
         WebkitOverflowScrolling: 'touch',
+        touchAction: 'pan-y',
       }}
       onPointerDown={(e) => e.stopPropagation()}
+      onPointerDownCapture={(e) => e.stopPropagation()}
     >
       {/* Header */}
       <div className="px-5 pt-5 pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
