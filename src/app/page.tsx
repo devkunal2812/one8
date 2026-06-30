@@ -7,6 +7,7 @@ import Navbar            from '@/components/layout/Navbar'
 import HeroSection       from '@/components/sections/HeroSection'
 import JourneySection    from '@/components/sections/JourneySection'
 import CollectionSection from '@/components/sections/CollectionSection'
+import ElevateSection    from '@/components/sections/ElevateSection'
 import StatsSection      from '@/components/sections/StatsSection'
 import FanExperience     from '@/components/sections/FanExperience'
 import ClosingSection    from '@/components/sections/ClosingSection'
@@ -31,6 +32,7 @@ export default function HomePage() {
           <HeroSection />
           <JourneySection />
           <CollectionSection />
+          <ElevateSection />
           <StatsSection />
           <FanExperience />
           <ClosingSection />
