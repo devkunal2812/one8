@@ -12,7 +12,20 @@ export default function ElevateSection() {
     const video = videoRef.current
     if (!video) return
 
-    // Auto-play when in view, pause when out of view (saves resources)
+    // Multiple event fallbacks - different browsers fire different events
+    const markLoaded = () => setLoaded(true)
+    video.addEventListener('loadeddata',   markLoaded)
+    video.addEventListener('loadedmetadata', markLoaded)
+    video.addEventListener('canplay',      markLoaded)
+    video.addEventListener('canplaythrough', markLoaded)
+
+    // If video is already ready (cached) when this runs
+    if (video.readyState >= 2) markLoaded()
+
+    // Safety net - never show skeleton forever
+    const safety = setTimeout(markLoaded, 3000)
+
+    // Auto-play when in view, pause when out of view
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -24,7 +37,15 @@ export default function ElevateSection() {
       { threshold: 0.25 }
     )
     observer.observe(video)
-    return () => observer.disconnect()
+
+    return () => {
+      observer.disconnect()
+      clearTimeout(safety)
+      video.removeEventListener('loadeddata',   markLoaded)
+      video.removeEventListener('loadedmetadata', markLoaded)
+      video.removeEventListener('canplay',      markLoaded)
+      video.removeEventListener('canplaythrough', markLoaded)
+    }
   }, [])
 
   return (
@@ -110,8 +131,7 @@ export default function ElevateSection() {
                 muted
                 loop
                 playsInline
-                preload="auto"
-                onLoadedData={() => setLoaded(true)}
+                preload="metadata"
                 className="w-full h-auto block"
                 style={{ aspectRatio: '1/1', objectFit: 'contain', background: '#0a0a0a', maxHeight: '70vh', margin: '0 auto' }}
               />
