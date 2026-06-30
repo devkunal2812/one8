@@ -172,16 +172,19 @@ export default function StatsSection() {
         {/* Scoreboard frame */}
         <div className="border border-king-silver/15 rounded-2xl p-1 bg-king-dark/40" style={{ borderColor: 'rgba(192,192,192,0.15)' }}>
           {/* Header bar */}
-          <div className="flex items-center justify-between px-6 py-3 border-b border-white/5">
-            <div className="flex gap-2">
-              <span className="w-3 h-3 rounded-full" style={{ background: "rgba(192,57,43,0.7)" }} />
-              <span className="w-3 h-3 rounded-full" style={{ background: 'rgba(192,192,192,0.7)' }} />
-              <span className="w-3 h-3 rounded-full bg-green-500/70" />
+          <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-2 px-4 sm:px-6 py-3 border-b border-white/5">
+            <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-start">
+              <div className="flex gap-2">
+                <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: "rgba(192,57,43,0.7)" }} />
+                <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: 'rgba(192,192,192,0.7)' }} />
+                <span className="w-3 h-3 rounded-full bg-green-500/70 flex-shrink-0" />
+              </div>
+              <span className="font-mono text-xs text-white/30 sm:hidden">2024</span>
             </div>
-            <span className="font-mono text-xs tracking-widest text-white/30 uppercase">
+            <span className="font-mono text-xs tracking-widest text-white/30 uppercase text-center">
               Virat Kohli - Career Overview
             </span>
-            <span className="font-mono text-xs text-white/30">2024</span>
+            <span className="font-mono text-xs text-white/30 hidden sm:block">2024</span>
           </div>
 
           {/* Stats grid */}
