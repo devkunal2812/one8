@@ -89,7 +89,7 @@ export default function ElevateSection() {
               </span>
             </h2>
             <p className="text-white/40 text-sm mt-4 max-w-lg mx-auto">
-              From the crease to the street — built to move with you through every part of the day.
+              From the crease to the street - built to move with you through every part of the day.
             </p>
           </motion.div>
 
@@ -125,15 +125,18 @@ export default function ElevateSection() {
                 </div>
               )}
 
-              <video
+              <motion.video
                 ref={videoRef}
-                src="/videos/animo-wheel-carousel-2160p(1).mp4"
+                src="/videos/wheel-carousel.mp4"
                 muted
                 loop
                 playsInline
                 preload="metadata"
                 className="w-full h-auto block"
                 style={{ aspectRatio: '1/1', objectFit: 'contain', background: '#0a0a0a', maxHeight: '70vh', margin: '0 auto' }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: loaded ? 1 : 0 }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
               />
 
               {/* Subtle overlay for cohesion with theme */}
