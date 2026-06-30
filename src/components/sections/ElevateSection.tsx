@@ -15,13 +15,36 @@ const WHEEL_ITEMS = [
   { type: 'text',  title: 'BUILT',    sub: 'To Perform', accent: '#E8E8E8' },
 ]
 
-/* ── Single wheel card ─────────────────────────────────────────── */
-function WheelCard({ item, angle, radius, rotationRef, onSelect }: {
+/* ── Responsive size hook ──────────────────────────────────────── */
+function useWheelSize() {
+  const [size, setSize] = useState({ cardW: 200, cardH: 260, radius: 340, wheelH: 580 })
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth
+      if (w < 480) {
+        setSize({ cardW: 130, cardH: 168, radius: 200, wheelH: 380 })
+      } else if (w < 768) {
+        setSize({ cardW: 160, cardH: 208, radius: 260, wheelH: 460 })
+      } else if (w < 1100) {
+        setSize({ cardW: 180, cardH: 234, radius: 300, wheelH: 520 })
+      } else {
+        setSize({ cardW: 210, cardH: 272, radius: 360, wheelH: 600 })
+      }
+    }
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
+  return size
+}
+function WheelCard({ item, angle, radius, rotationRef, onSelect, cardW, cardH }: {
   item: typeof WHEEL_ITEMS[0]
   angle: number
   radius: number
   rotationRef: React.MutableRefObject<number>
   onSelect: (item: typeof WHEEL_ITEMS[0]) => void
+  cardW: number
+  cardH: number
 }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [hovered, setHovered] = useState(false)
@@ -53,8 +76,8 @@ function WheelCard({ item, angle, radius, rotationRef, onSelect }: {
       onMouseLeave={() => setHovered(false)}
       style={{
         position: 'absolute', top: '50%', left: '50%',
-        width: 140, height: 180,
-        marginLeft: -70, marginTop: -90,
+        width: cardW, height: cardH,
+        marginLeft: -cardW / 2, marginTop: -cardH / 2,
         transformStyle: 'preserve-3d',
         backfaceVisibility: 'hidden',
         cursor: 'pointer',
@@ -77,14 +100,14 @@ function WheelCard({ item, angle, radius, rotationRef, onSelect }: {
             <img src={item.src} alt={item.label} className="w-full h-full object-cover" draggable={false} />
             <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.75) 100%)' }} />
             <div className="absolute bottom-2 left-2 right-2">
-              <span className="font-mono text-[8px] uppercase tracking-wider text-white/85">{item.label}</span>
+              <span className="font-mono text-[10px] uppercase tracking-wider text-white/85">{item.label}</span>
             </div>
           </>
         )}
         {item.type === 'text' && (
           <div className="w-full h-full flex flex-col items-center justify-center gap-1 px-2 text-center"
             style={{ background: 'linear-gradient(160deg, #141416 0%, #0a0a0b 100%)' }}>
-            <span className="font-display leading-none" style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: item.accent }}>
+            <span className="font-display leading-none" style={{ fontFamily: 'var(--font-display)', fontSize: '1.9rem', color: item.accent }}>
               {item.title}
             </span>
             <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-white/35">{item.sub}</span>
@@ -94,7 +117,7 @@ function WheelCard({ item, angle, radius, rotationRef, onSelect }: {
           <div className="w-full h-full flex flex-col items-center justify-center gap-2"
             style={{ background: 'linear-gradient(160deg, rgba(192,192,192,0.1) 0%, #0a0a0b 100%)', border: '1px solid rgba(192,192,192,0.15)' }}>
             <span className="font-display leading-none" style={{
-              fontFamily: 'var(--font-display)', fontSize: '2rem',
+              fontFamily: 'var(--font-display)', fontSize: '2.6rem',
               background: 'linear-gradient(90deg,#C0C0C0,#E8E8E8,#C0C0C0)', backgroundSize: '200% auto',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
               animation: 'shimmer 3s linear infinite',
@@ -179,7 +202,7 @@ function WheelCarousel() {
   const [selected, setSelected] = useState<typeof WHEEL_ITEMS[0] | null>(null)
 
   const n      = WHEEL_ITEMS.length
-  const radius = 230
+  const { cardW, cardH, radius, wheelH } = useWheelSize()
   const angleStep = 360 / n
 
   useAnimationFrame((_, delta) => {
@@ -229,7 +252,7 @@ function WheelCarousel() {
     <>
       <div
         className="relative w-full select-none"
-        style={{ height: 420, perspective: '1400px', cursor: isDragging ? 'grabbing' : 'grab' }}
+        style={{ height: wheelH, perspective: '1600px', cursor: isDragging ? 'grabbing' : 'grab' }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
@@ -249,6 +272,8 @@ function WheelCarousel() {
               radius={radius}
               rotationRef={rotation}
               onSelect={setSelected}
+              cardW={cardW}
+              cardH={cardH}
             />
           ))}
         </div>
@@ -316,7 +341,7 @@ export default function ElevateSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="relative max-w-3xl mx-auto"
+            className="relative max-w-5xl mx-auto"
           >
             <div className="absolute -inset-10 pointer-events-none"
               style={{ background: 'radial-gradient(ellipse 60% 60% at center, rgba(192,192,192,0.07) 0%, transparent 70%)' }} />
