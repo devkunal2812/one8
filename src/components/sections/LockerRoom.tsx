@@ -12,17 +12,59 @@ interface WinData {
 interface OpenWin { data: WinData; x: number; y: number; z: number }
 
 /* ── SVG Icons ──────────────────────────────────────────────────── */
-const ShoeSVG  = () => <svg viewBox="0 0 48 28" fill="none" className="w-8 h-5"><path d="M5 22 Q8 9 16 7 Q25 4 34 7 Q42 10 44 16L44 22Z" fill="#C0C0C0" opacity=".9"/><ellipse cx="43" cy="18" rx="4" ry="3.5" fill="#C0C0C0"/><rect x="4" y="21" width="41" height="5" rx="2.5" fill="#666"/><line x1="18" y1="7" x2="18" y2="21" stroke="white" strokeWidth="1.2" strokeDasharray="2 2" opacity=".6"/><line x1="24" y1="6" x2="24" y2="21" stroke="white" strokeWidth="1.2" strokeDasharray="2 2" opacity=".6"/><line x1="30" y1="7" x2="30" y2="21" stroke="white" strokeWidth="1.2" strokeDasharray="2 2" opacity=".6"/><text x="7" y="19" fontSize="5" fontFamily="monospace" fill="#C0C0C0" opacity=".8">ONE8</text></svg>
-const StatsSVG = () => <svg viewBox="0 0 40 36" fill="none" className="w-7 h-7"><rect x="3" y="22" width="7" height="11" rx="1.5" fill="#C0C0C0" opacity=".65"/><rect x="16" y="14" width="7" height="19" rx="1.5" fill="#C0C0C0"/><rect x="29" y="6" width="7" height="27" rx="1.5" fill="#C0C0C0" opacity=".8"/><line x1="2" y1="33" x2="38" y2="33" stroke="#666" strokeWidth="1.5"/></svg>
-const JourneySVG = () => <svg viewBox="0 0 40 36" fill="none" className="w-7 h-7"><circle cx="6" cy="30" r="3.5" fill="#C0C0C0" opacity=".55"/><circle cx="20" cy="18" r="3.5" fill="#C0C0C0" opacity=".8"/><circle cx="34" cy="6" r="3.5" fill="#C0C0C0"/><path d="M6 30Q13 24 20 18Q27 12 34 6" stroke="#C0C0C0" strokeWidth="1.5" strokeDasharray="3 2" opacity=".4"/></svg>
-const CrownSVG = () => <svg viewBox="0 0 40 36" fill="none" className="w-7 h-7"><path d="M5 26L5 12L13 20L20 4L27 20L35 12L35 26Z" fill="#C0C0C0" opacity=".88"/><rect x="5" y="26" width="30" height="5" rx="1.5" fill="#666"/><circle cx="20" cy="4" r="2.2" fill="white" opacity=".8"/><circle cx="5" cy="12" r="2.2" fill="white" opacity=".8"/><circle cx="35" cy="12" r="2.2" fill="white" opacity=".8"/></svg>
-const CricketSVG = () => <svg viewBox="0 0 40 36" fill="none" className="w-7 h-7"><rect x="17" y="2" width="7" height="20" rx="3.5" fill="#C0C0C0" opacity=".85" transform="rotate(18 20 12)"/><circle cx="12" cy="27" r="7" fill="none" stroke="#C0C0C0" strokeWidth="2" opacity=".7"/></svg>
-const FitnessSVG = () => <svg viewBox="0 0 44 28" fill="none" className="w-8 h-6"><rect x="1" y="10" width="6" height="8" rx="3" fill="#C0C0C0" opacity=".75"/><rect x="37" y="10" width="6" height="8" rx="3" fill="#C0C0C0" opacity=".75"/><rect x="7" y="6" width="7" height="16" rx="3.5" fill="#C0C0C0"/><rect x="30" y="6" width="7" height="16" rx="3.5" fill="#C0C0C0"/><rect x="14" y="10" width="16" height="8" rx="2" fill="#777"/></svg>
-const BrandSVG = () => <svg viewBox="0 0 44 20" fill="none" className="w-10 h-5"><text x="1" y="16" fontFamily="serif" fontSize="15" fontWeight="bold" fill="#C0C0C0" letterSpacing="2">ONE8</text></svg>
-const RecordSVG = () => <svg viewBox="0 0 40 40" fill="none" className="w-7 h-7"><circle cx="20" cy="20" r="17" stroke="#C0C0C0" strokeWidth="1.5" opacity=".5"/><circle cx="20" cy="20" r="11" stroke="#C0C0C0" strokeWidth="1.5" opacity=".7"/><circle cx="20" cy="20" r="5" fill="#C0C0C0" opacity=".9"/></svg>
+/* ── Polished, consistent stroke-icon set (24x24 viewBox) ─────────── */
+const iconProps = { viewBox: '0 0 24 24', fill: 'none', stroke: '#C0C0C0', strokeWidth: 1.5, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, className: 'w-7 h-7' }
+
+const ShoeSVG = () => (
+  <svg {...iconProps}>
+    <path d="M3 17c0-3 1.5-5.5 4-7l1.5-3c.3-.6 1-1 1.7-.8l2 .5c.6.2 1 .7 1 1.3v2c2 .3 4 1.5 5.3 3.5.5.8.8 1.7.8 2.7V17a1 1 0 01-1 1H4a1 1 0 01-1-1z"/>
+    <path d="M3 17h17"/>
+    <path d="M9.5 10c1 .5 2.5.8 4 .5"/>
+  </svg>
+)
+const StatsSVG = () => (
+  <svg {...iconProps}>
+    <line x1="4" y1="20" x2="20" y2="20"/>
+    <rect x="6" y="13" width="3.5" height="7" rx="0.5"/>
+    <rect x="12" y="9" width="3.5" height="11" rx="0.5"/>
+    <rect x="18" y="5" width="0" height="0"/>
+    <rect x="17.25" y="5" width="3.5" height="15" rx="0.5"/>
+  </svg>
+)
+const JourneySVG = () => (
+  <svg {...iconProps}>
+    <circle cx="5" cy="19" r="2"/>
+    <circle cx="12" cy="12" r="2"/>
+    <circle cx="19" cy="5" r="2"/>
+    <path d="M6.8 17.5L10.3 13.5M13.7 10.5L17.2 6.5" strokeDasharray="2.5 2.5"/>
+  </svg>
+)
+const FitnessSVG = () => (
+  <svg {...iconProps}>
+    <path d="M3 10v4"/>
+    <path d="M6 8v8"/>
+    <path d="M21 10v4"/>
+    <path d="M18 8v8"/>
+    <line x1="6" y1="12" x2="18" y2="12"/>
+  </svg>
+)
+const BrandSVG = () => (
+  <svg {...iconProps}>
+    <path d="M7 3L4 12l3 9M17 3l3 9-3 9"/>
+    <path d="M14 3l-4 18"/>
+  </svg>
+)
+const RecordSVG = () => (
+  <svg {...iconProps}>
+    <path d="M8 3h8l-1.5 6h-5z"/>
+    <circle cx="12" cy="14" r="6"/>
+    <path d="M9.5 14l1.8 1.8L15 12"/>
+  </svg>
+)
 
 /* ── Icon data ──────────────────────────────────────────────────── */
 const ICONS = [
+  // Left column
   { id:'cover-drive',   label:'Cover Drive 18', col:0, row:0, Icon:ShoeSVG,
     win:{ id:'cover-drive', title:'Cover Drive 18 Pro', subtitle:'ONE8 Cricket Shoe  -  Rs.13,999', type:'Product > Cricket > High Performance',
       body:'Co-created with Virat Kohli himself. Engineered for the striker who demands precision at the crease.\n\nPWR+LCK heel-lock collar prevents heel slippage at the moment of impact. TPU Boom Shank provides torsional rigidity through the crease. Breathable mono-mesh upper with synthetic overlays for toe protection.',
@@ -38,6 +80,11 @@ const ICONS = [
       body:"Built for the hybrid athlete who never stops. Boom Foam midsole delivers explosive, responsive cushioning for running and gym sessions.\n\nSonic Grip outsole provides advanced multi-directional traction. Mint Green + Classic White colorway.",
       link:'https://one8.com/products/boom-rush-women-mint-green-classic-white', linkLabel:'Buy on ONE8.com',
       stats:[{label:'Price',value:'Rs.9,999'},{label:'Foam',value:'Boom Foam'},{label:'Grip',value:'Sonic Grip'},{label:'Fit',value:"Women's"}]}},
+  { id:'records',       label:'Records',        col:0, row:3, Icon:RecordSVG,
+    win:{ id:'records', title:'Cricket Records', subtitle:'Records that may never be broken', type:'Data > All Time Greats',
+      body:'Fastest to 8,000 / 9,000 / 10,000 ODI runs in history.\n\nMost centuries in successful ODI run chases. Most Player of the Match awards in ODI cricket. These are not just records - they are monuments.',
+      stats:[{label:'ODI 100s',value:'50'},{label:'Test 100s',value:'30'},{label:'T20I 100s',value:'1'},{label:'To 10K',value:'205 inn'}]}},
+  // Right column
   { id:'career-stats',  label:'Career Stats',   col:3, row:0, Icon:StatsSVG,
     win:{ id:'career-stats', title:'Career Statistics', subtitle:'Virat Kohli  -  All Formats', type:'Data > Statistics > 2024',
       body:'Numbers that define a generation. The most complete batsman of the modern era.\n\nThe only player to average 50+ in Tests, ODIs and T20Is simultaneously. ICC Cricketer of the Decade 2010-2019.',
@@ -50,15 +97,11 @@ const ICONS = [
     win:{ id:'fitness', title:'Fitness Protocol', subtitle:"Virat's Training System", type:'Lifestyle > Fitness',
       body:"Wakes at 5 AM, gym by 6 AM, six days a week. Switched to plant-based diet in 2018. Zero alcohol since 2012. Approx 10% body fat.\n\nHis philosophy: the body is the temple. Treat it accordingly.",
       stats:[{label:'Wake',value:'5:00 AM'},{label:'Body Fat',value:'~10%'},{label:'Diet',value:'Plant-based'},{label:'Sessions',value:'6/week'}]}},
-  { id:'one8-brand',    label:'ONE8 Story',     col:2, row:3, Icon:BrandSVG,
+  { id:'one8-brand',    label:'ONE8 Story',     col:3, row:3, Icon:BrandSVG,
     win:{ id:'one8-brand', title:'ONE8', subtitle:"Virat Kohli's Lifestyle Brand", type:'Brand > Lifestyle > Performance',
       body:"ONE8 is Virat Kohli's personal brand co-created with PUMA India in 2018.\n\nThe name: 18 hours of hustle every single day. Spans performance footwear, apparel, fragrances and ONE8 Commune restaurants across India.",
       link:'https://one8.com', linkLabel:'Explore ONE8.com',
       stats:[{label:'Founded',value:'2018'},{label:'Partner',value:'PUMA'},{label:'Ethos',value:'18hr Hustle'},{label:'Verticals',value:'4+'}]}},
-  { id:'records',       label:'Records',        col:1, row:3, Icon:RecordSVG,
-    win:{ id:'records', title:'Cricket Records', subtitle:'Records that may never be broken', type:'Data > All Time Greats',
-      body:'Fastest to 8,000 / 9,000 / 10,000 ODI runs in history.\n\nMost centuries in successful ODI run chases. Most Player of the Match awards in ODI cricket. These are not just records - they are monuments.',
-      stats:[{label:'ODI 100s',value:'50'},{label:'Test 100s',value:'30'},{label:'T20I 100s',value:'1'},{label:'To 10K',value:'205 inn'}]}},
 ]
 
 /* ── Detect touch device ────────────────────────────────────────── */
