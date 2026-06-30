@@ -78,7 +78,7 @@ export default function ElevateSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="relative max-w-4xl mx-auto"
+            className="relative max-w-2xl mx-auto"
           >
             {/* Silver glow behind video */}
             <div className="absolute -inset-6 pointer-events-none"
@@ -95,7 +95,7 @@ export default function ElevateSection() {
               {/* Loading skeleton */}
               {!loaded && (
                 <div className="absolute inset-0 flex items-center justify-center z-10"
-                  style={{ background: '#0a0a0a', aspectRatio: '16/9' }}>
+                  style={{ background: '#0a0a0a', aspectRatio: '1/1', maxHeight: '70vh', margin: '0 auto' }}>
                   <div className="flex flex-col items-center gap-3">
                     <div className="w-8 h-8 rounded-full border-2 border-white/10 animate-spin"
                       style={{ borderTopColor: '#C0C0C0' }} />
@@ -110,10 +110,10 @@ export default function ElevateSection() {
                 muted
                 loop
                 playsInline
-                preload="metadata"
+                preload="auto"
                 onLoadedData={() => setLoaded(true)}
                 className="w-full h-auto block"
-                style={{ aspectRatio: '16/9', objectFit: 'cover' }}
+                style={{ aspectRatio: '1/1', objectFit: 'contain', background: '#0a0a0a', maxHeight: '70vh', margin: '0 auto' }}
               />
 
               {/* Subtle overlay for cohesion with theme */}
