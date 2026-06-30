@@ -64,6 +64,93 @@ const ICONS = [
 /* ── Detect touch device ────────────────────────────────────────── */
 const isTouchDevice = () => typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)
 
+/* ── Interactive background: dither pattern reveals Virat photo on cursor proximity ── */
+function LockerBackground() {
+  const wrapRef  = useRef<HTMLDivElement>(null)
+  const photoRef = useRef<HTMLDivElement>(null)
+  const mouse    = useRef({ x: 0.5, y: 0.35 }) // normalized 0..1, default soft-center
+  const display  = useRef({ x: 0.5, y: 0.35 })
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      mouse.current = { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight }
+    }
+    const onTouch = (e: TouchEvent) => {
+      const t = e.touches[0]
+      if (!t) return
+      mouse.current = { x: t.clientX / window.innerWidth, y: t.clientY / window.innerHeight }
+    }
+    window.addEventListener('mousemove', onMove, { passive: true })
+    window.addEventListener('touchmove', onTouch, { passive: true })
+
+    let raf: number
+    const lerp = (a: number, b: number, t: number) => a + (b - a) * t
+    const tick = () => {
+      display.current.x = lerp(display.current.x, mouse.current.x, 0.06)
+      display.current.y = lerp(display.current.y, mouse.current.y, 0.06)
+      const px = `${display.current.x * 100}%`
+      const py = `${display.current.y * 100}%`
+      if (photoRef.current) {
+        photoRef.current.style.maskImage    = `radial-gradient(circle 280px at ${px} ${py}, black 0%, black 35%, transparent 78%)`
+        photoRef.current.style.webkitMaskImage = photoRef.current.style.maskImage
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('touchmove', onTouch)
+      cancelAnimationFrame(raf)
+    }
+  }, [])
+
+  return (
+    <div ref={wrapRef} className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      {/* Base: deep black */}
+      <div className="absolute inset-0" style={{ background: '#060608' }} />
+
+      {/* Dither pattern layer - always visible, subtle */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: 'url(/images/locker-dither.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.5,
+          mixBlendMode: 'screen',
+        }}
+      />
+
+      {/* Virat photo layer - masked, revealed near cursor */}
+      <div
+        ref={photoRef}
+        className="absolute inset-0"
+        style={{
+          backgroundImage: 'url(/images/locker-virat.jpeg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 20%',
+          opacity: 0.85,
+          filter: 'grayscale(0.15) contrast(1.05) brightness(0.9)',
+          maskImage: 'radial-gradient(circle 280px at 50% 35%, black 0%, black 35%, transparent 78%)',
+          WebkitMaskImage: 'radial-gradient(circle 280px at 50% 35%, black 0%, black 35%, transparent 78%)',
+          transition: 'opacity 0.4s ease',
+        }}
+      />
+
+      {/* Edge vignette to keep corners dark/clean */}
+      <div className="absolute inset-0" style={{
+        background: 'radial-gradient(ellipse 90% 80% at 50% 45%, transparent 40%, #060608 95%)',
+      }} />
+
+      {/* Bottom fade for menu bar / icons readability */}
+      <div className="absolute inset-0" style={{
+        background: 'linear-gradient(180deg, rgba(6,6,8,0.4) 0%, transparent 18%, transparent 70%, rgba(6,6,8,0.75) 100%)',
+      }} />
+    </div>
+  )
+}
+
 /* ── macOS Window ───────────────────────────────────────────────── */
 function MacWindow({ w, onClose, onFocus, isMobile }: {
   w: OpenWin; onClose: () => void; onFocus: () => void; isMobile: boolean
@@ -360,15 +447,9 @@ export default function LockerRoomClient() {
   return (
     <div className="fixed inset-0 overflow-hidden" style={{ background: '#060608' }}>
 
-      {/* Background */}
+      {/* Background - interactive dither reveal */}
+      <LockerBackground />
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0" style={{
-          background: `
-            radial-gradient(ellipse 90% 70% at 50% 100%, rgba(35,35,40,0.85) 0%, #060608 55%),
-            radial-gradient(ellipse 50% 50% at 15% 10%, rgba(192,192,192,0.05) 0%, transparent 55%),
-            radial-gradient(ellipse 50% 50% at 85% 10%, rgba(192,192,192,0.05) 0%, transparent 55%)
-          `,
-        }} />
         <div className="absolute inset-0 opacity-[0.015]" style={{
           backgroundImage: 'linear-gradient(rgba(192,192,192,1) 1px,transparent 1px),linear-gradient(90deg,rgba(192,192,192,1) 1px,transparent 1px)',
           backgroundSize: '56px 56px',
