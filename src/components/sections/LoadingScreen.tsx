@@ -74,7 +74,7 @@ export default function LoadingScreen({ onComplete }: Props) {
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#060608]"
-      style={{ opacity: phase === 'done' ? 0 : 1, transition: 'opacity 0.6s ease' }}>
+      style={{ opacity: 1, transition: 'opacity 0.6s ease' }}>
 
       {/* particles */}
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
