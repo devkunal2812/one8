@@ -66,10 +66,9 @@ const isTouchDevice = () => typeof window !== 'undefined' && ('ontouchstart' in 
 
 /* ── Interactive background: dither pattern reveals Virat photo on cursor proximity ── */
 function LockerBackground() {
-  const wrapRef  = useRef<HTMLDivElement>(null)
   const photoRef = useRef<HTMLDivElement>(null)
-  const mouse    = useRef({ x: 0.5, y: 0.35 }) // normalized 0..1, default soft-center
-  const display  = useRef({ x: 0.5, y: 0.35 })
+  const mouse    = useRef({ x: 0.5, y: 0.32 })
+  const display  = useRef({ x: 0.5, y: 0.32 })
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
@@ -86,13 +85,15 @@ function LockerBackground() {
     let raf: number
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t
     const tick = () => {
-      display.current.x = lerp(display.current.x, mouse.current.x, 0.06)
-      display.current.y = lerp(display.current.y, mouse.current.y, 0.06)
+      display.current.x = lerp(display.current.x, mouse.current.x, 0.07)
+      display.current.y = lerp(display.current.y, mouse.current.y, 0.07)
       const px = `${display.current.x * 100}%`
       const py = `${display.current.y * 100}%`
       if (photoRef.current) {
-        photoRef.current.style.maskImage    = `radial-gradient(circle 280px at ${px} ${py}, black 0%, black 35%, transparent 78%)`
-        photoRef.current.style.webkitMaskImage = photoRef.current.style.maskImage
+        // Soft, wide falloff - no hard edge, photo fades gently into dither
+        const mask = `radial-gradient(circle 340px at ${px} ${py}, black 0%, black 18%, rgba(0,0,0,0.5) 50%, transparent 85%)`
+        photoRef.current.style.maskImage = mask
+        photoRef.current.style.webkitMaskImage = mask
       }
       raf = requestAnimationFrame(tick)
     }
@@ -106,46 +107,46 @@ function LockerBackground() {
   }, [])
 
   return (
-    <div ref={wrapRef} className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-      {/* Base: deep black */}
+    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      {/* Base */}
       <div className="absolute inset-0" style={{ background: '#060608' }} />
 
-      {/* Dither pattern layer - always visible, subtle */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: 'url(/images/locker-dither.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.5,
-          mixBlendMode: 'screen',
-        }}
-      />
-
-      {/* Virat photo layer - masked, revealed near cursor */}
+      {/* Virat photo layer - sharp, natural color, masked reveal */}
       <div
         ref={photoRef}
         className="absolute inset-0"
         style={{
           backgroundImage: 'url(/images/locker-virat.jpeg)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center 20%',
-          opacity: 0.85,
-          filter: 'grayscale(0.15) contrast(1.05) brightness(0.9)',
-          maskImage: 'radial-gradient(circle 280px at 50% 35%, black 0%, black 35%, transparent 78%)',
-          WebkitMaskImage: 'radial-gradient(circle 280px at 50% 35%, black 0%, black 35%, transparent 78%)',
-          transition: 'opacity 0.4s ease',
+          backgroundPosition: 'center 18%',
+          opacity: 1,
+          filter: 'contrast(1.04) saturate(1.05)',
+          maskImage: 'radial-gradient(circle 340px at 50% 32%, black 0%, black 18%, rgba(0,0,0,0.5) 50%, transparent 85%)',
+          WebkitMaskImage: 'radial-gradient(circle 340px at 50% 32%, black 0%, black 18%, rgba(0,0,0,0.5) 50%, transparent 85%)',
         }}
       />
 
-      {/* Edge vignette to keep corners dark/clean */}
+      {/* Dither pattern - desaturated overlay, only in non-photo areas via multiply (keeps photo clean) */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: 'url(/images/locker-dither.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.22,
+          filter: 'grayscale(1) brightness(1.3)',
+          mixBlendMode: 'lighten',
+        }}
+      />
+
+      {/* Edge vignette */}
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 90% 80% at 50% 45%, transparent 40%, #060608 95%)',
+        background: 'radial-gradient(ellipse 90% 80% at 50% 42%, transparent 38%, #060608 96%)',
       }} />
 
       {/* Bottom fade for menu bar / icons readability */}
       <div className="absolute inset-0" style={{
-        background: 'linear-gradient(180deg, rgba(6,6,8,0.4) 0%, transparent 18%, transparent 70%, rgba(6,6,8,0.75) 100%)',
+        background: 'linear-gradient(180deg, rgba(6,6,8,0.45) 0%, transparent 16%, transparent 72%, rgba(6,6,8,0.8) 100%)',
       }} />
     </div>
   )
