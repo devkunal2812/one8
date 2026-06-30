@@ -102,8 +102,8 @@ function StatCard({ stat, index }: { stat: typeof STATS[0]; index: number }) {
           </span>
         )}
         <span
-          className="font-display tabular-nums" style={{ fontSize: 'clamp(2.5rem, 8vw, 4rem)' }}
-          style={{ color: stat.color, fontFamily: 'var(--font-display)', textShadow: `0 0 30px ${stat.color}40` }}
+          className="font-display tabular-nums"
+          style={{ fontSize: 'clamp(2.5rem, 8vw, 4rem)', color: stat.color, fontFamily: 'var(--font-display)', textShadow: `0 0 30px ${stat.color}40` }}
         >
           {count.toLocaleString('en-IN')}
         </span>
