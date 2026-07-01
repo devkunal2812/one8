@@ -8,7 +8,8 @@ export default function CustomCursor() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    // Only on true pointer (non-touch) devices
+
+    // Disable completely on touch/mobile devices
     if (window.matchMedia('(pointer: coarse)').matches) return
 
     const dot  = dotRef.current
@@ -17,6 +18,7 @@ export default function CustomCursor() {
 
     dot.style.opacity  = '1'
     ring.style.opacity = '1'
+    document.body.style.cursor = 'none'
 
     let mouseX = window.innerWidth  / 2
     let mouseY = window.innerHeight / 2
@@ -32,7 +34,6 @@ export default function CustomCursor() {
     }
 
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t
-
     const tick = () => {
       ringX = lerp(ringX, mouseX, 0.1)
       ringY = lerp(ringY, mouseY, 0.1)
@@ -42,35 +43,25 @@ export default function CustomCursor() {
     rafId = requestAnimationFrame(tick)
 
     const INTERACTIVE = 'a, button, [role="button"], input, select, textarea, label'
-
     const onMouseOver = (e: MouseEvent) => {
-      const t = e.target as HTMLElement
-      if (t.closest(INTERACTIVE)) {
+      if ((e.target as HTMLElement).closest(INTERACTIVE)) {
         if (isHovering) return
         isHovering = true
-        ring.style.width       = '48px'
-        ring.style.height      = '48px'
-        ring.style.borderColor = 'rgba(192,192,192,0.85)'
-        ring.style.mixBlendMode = 'normal'
-        dot.style.transform    = dot.style.transform
-        dot.style.opacity      = '0.5'
+        ring.style.width        = '48px'
+        ring.style.height       = '48px'
+        ring.style.borderColor  = 'rgba(192,192,192,0.85)'
+        dot.style.opacity       = '0.5'
       }
     }
-
     const onMouseOut = (e: MouseEvent) => {
-      const t = e.target as HTMLElement
-      if (t.closest(INTERACTIVE)) {
+      if ((e.target as HTMLElement).closest(INTERACTIVE)) {
         isHovering = false
         ring.style.width       = '36px'
         ring.style.height      = '36px'
         ring.style.borderColor = 'rgba(192,192,192,0.45)'
-        ring.style.mixBlendMode = 'normal'
         dot.style.opacity      = '1'
       }
     }
-
-    // Hide default cursor
-    document.body.style.cursor = 'none'
 
     window.addEventListener('mousemove',  onMouseMove, { passive: true })
     document.addEventListener('mouseover', onMouseOver, { passive: true })
@@ -87,43 +78,10 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Silver dot */}
-      <div
-        ref={dotRef}
-        className="hidden md:block"
-        style={{
-          position:       'fixed',
-          top:            0,
-          left:           0,
-          width:          '8px',
-          height:         '8px',
-          borderRadius:   '50%',
-          background:     '#E8E8E8',
-          pointerEvents:  'none',
-          zIndex:         99999,
-          opacity:        0,
-          willChange:     'transform',
-        }}
-      />
-      {/* Tracking ring */}
-      <div
-        ref={ringRef}
-        className="hidden md:block"
-        style={{
-          position:       'fixed',
-          top:            0,
-          left:           0,
-          width:          '36px',
-          height:         '36px',
-          borderRadius:   '50%',
-          border:         '1px solid rgba(192,192,192,0.45)',
-          pointerEvents:  'none',
-          zIndex:         99998,
-          opacity:        0,
-          willChange:     'transform',
-          transition:     'width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.25s ease',
-        }}
-      />
+      <div ref={dotRef} className="hidden md:block"
+        style={{ position:'fixed', top:0, left:0, width:8, height:8, borderRadius:'50%', background:'#E8E8E8', pointerEvents:'none', zIndex:99999, opacity:0, willChange:'transform' }} />
+      <div ref={ringRef} className="hidden md:block"
+        style={{ position:'fixed', top:0, left:0, width:36, height:36, borderRadius:'50%', border:'1px solid rgba(192,192,192,0.45)', pointerEvents:'none', zIndex:99998, opacity:0, willChange:'transform', transition:'width 0.25s ease, height 0.25s ease, border-color 0.25s ease' }} />
     </>
   )
 }
