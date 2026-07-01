@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 
 /* ── SVG Icons (no emojis) ──────────────────────────────────────── */
@@ -211,63 +211,266 @@ function ShoeQuiz() {
 }
 
 /* ── Tab: Wallpaper ─────────────────────────────────────────────── */
+/* ── Wallpaper templates ────────────────────────────────────────── */
+const TEMPLATES = [
+  { id: 'minimal', label: 'Minimal',     desc: 'Clean quote, no photo' },
+  { id: 'portrait', label: 'Portrait',   desc: 'Virat photo + quote overlay' },
+  { id: 'stats',    label: 'Stats',      desc: 'Career numbers showcase' },
+]
+
+const ASPECTS = [
+  { id: 'mobile',  label: 'Mobile',  w: 1080, h: 1920, ratio: '9/16' },
+  { id: 'desktop', label: 'Desktop', w: 1920, h: 1080, ratio: '16/9' },
+  { id: 'square',  label: 'Square',  w: 1080, h: 1080, ratio: '1/1' },
+]
+
+const WALL_STATS = [
+  { label: 'Int Runs',  value: '27,289' },
+  { label: 'Centuries', value: '80+' },
+  { label: 'ICC Rank',  value: '#1' },
+]
+
 function WallpaperGen() {
-  const [qi, setQi]   = useState(0)
-  const [gen, setGen] = useState(false)
+  const [qi, setQi]           = useState(0)
+  const [template, setTemplate] = useState('portrait')
+  const [aspect, setAspect]   = useState('mobile')
+  const [gen, setGen]         = useState(false)
+  const [rendering, setRendering] = useState(false)
   const cvs = useRef<HTMLCanvasElement>(null)
+  const photoImg = useRef<HTMLImageElement | null>(null)
+
+  // Preload photo once
+  useEffect(() => {
+    const img = new Image()
+    img.src = '/images/locker-virat.jpeg'
+    img.onload = () => { photoImg.current = img }
+  }, [])
+
+  const draw = useCallback(() => {
+    const canvas = cvs.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const a = ASPECTS.find(x => x.id === aspect)!
+    const W = canvas.width = a.w
+    const H = canvas.height = a.h
+
+    // Base
+    ctx.fillStyle = '#060608'
+    ctx.fillRect(0, 0, W, H)
+
+    /* ── PORTRAIT template: photo + quote ── */
+    if (template === 'portrait' && photoImg.current) {
+      const img = photoImg.current
+      const imgRatio = img.width / img.height
+      const canvasRatio = W / H
+      let dw, dh, dx, dy
+      if (imgRatio > canvasRatio) {
+        dh = H; dw = H * imgRatio; dx = (W - dw) / 2; dy = 0
+      } else {
+        dw = W; dh = W / imgRatio; dx = 0; dy = (H - dh) * 0.15
+      }
+      ctx.drawImage(img, dx, dy, dw, dh)
+
+      // Dark gradient overlay - bottom heavy for text legibility
+      const grad = ctx.createLinearGradient(0, 0, 0, H)
+      grad.addColorStop(0, 'rgba(6,6,8,0.55)')
+      grad.addColorStop(0.45, 'rgba(6,6,8,0.25)')
+      grad.addColorStop(0.7, 'rgba(6,6,8,0.75)')
+      grad.addColorStop(1, 'rgba(6,6,8,0.95)')
+      ctx.fillStyle = grad
+      ctx.fillRect(0, 0, W, H)
+
+      // Side vignette
+      const sideGrad = ctx.createLinearGradient(0, 0, W, 0)
+      sideGrad.addColorStop(0, 'rgba(6,6,8,0.4)')
+      sideGrad.addColorStop(0.15, 'transparent')
+      sideGrad.addColorStop(0.85, 'transparent')
+      sideGrad.addColorStop(1, 'rgba(6,6,8,0.4)')
+      ctx.fillStyle = sideGrad
+      ctx.fillRect(0, 0, W, H)
+    }
+
+    /* ── STATS template: career numbers ── */
+    if (template === 'stats') {
+      const g = ctx.createRadialGradient(W / 2, H * 0.4, 40, W / 2, H / 2, H * 0.7)
+      g.addColorStop(0, 'rgba(192,192,192,0.1)')
+      g.addColorStop(1, 'transparent')
+      ctx.fillStyle = g
+      ctx.fillRect(0, 0, W, H)
+
+      // Grid lines
+      ctx.strokeStyle = 'rgba(192,192,192,0.04)'
+      ctx.lineWidth = Math.max(1, W / 800)
+      const step = W / 14
+      for (let x = 0; x < W; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
+      for (let y = 0; y < H; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
+
+      // Stats stacked
+      const fontScale = W / 1080
+      let sy = H * 0.32
+      WALL_STATS.forEach((s) => {
+        ctx.font = `bold ${100 * fontScale}px Georgia, serif`
+        ctx.fillStyle = '#C0C0C0'
+        ctx.textAlign = 'center'
+        ctx.fillText(s.value, W / 2, sy)
+        ctx.font = `${20 * fontScale}px monospace`
+        ctx.fillStyle = 'rgba(255,255,255,0.4)'
+        ctx.fillText(s.label.toUpperCase(), W / 2, sy + 32 * fontScale)
+        sy += 170 * fontScale
+      })
+    }
+
+    /* ── MINIMAL / shared: grid + ONE8 watermark (skip heavy grid if portrait, photo already busy) ── */
+    if (template !== 'portrait') {
+      ctx.strokeStyle = 'rgba(192,192,192,0.03)'
+      ctx.lineWidth = 1
+      const gridStep = W / 14
+      for (let x = 0; x < W; x += gridStep) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
+      for (let y = 0; y < H; y += gridStep) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
+    }
+
+    const fontScale = W / 1080
+    if (template === 'minimal') {
+      ctx.font = `bold ${180 * fontScale}px Georgia, serif`
+      ctx.fillStyle = 'rgba(192,192,192,0.05)'
+      ctx.textAlign = 'center'
+      ctx.fillText('ONE8', W / 2, H / 2 + 65 * fontScale)
+    }
+
+    /* ── Quote (minimal + portrait templates) ── */
+    if (template === 'minimal' || template === 'portrait') {
+      const quoteY = template === 'portrait' ? H * 0.78 : H / 2 - 20 * fontScale
+      ctx.fillStyle = '#F5F5F0'
+      ctx.font = `bold ${36 * fontScale}px Georgia, serif`
+      ctx.textAlign = 'center'
+      const words = QUOTES[qi].split(' ')
+      const maxW = W * 0.78
+      let line = '', y = quoteY
+      const lineH = 52 * fontScale
+      const lines: string[] = []
+      for (const w of words) {
+        const test = line + w + ' '
+        if (ctx.measureText(test).width > maxW && line) { lines.push(line.trim()); line = w + ' ' } else line = test
+      }
+      lines.push(line.trim())
+      // vertically center the block around quoteY for portrait, or use as top anchor for minimal
+      const startY = template === 'portrait' ? quoteY - (lines.length - 1) * lineH * 0.5 : quoteY
+      lines.forEach((l, i) => ctx.fillText(l, W / 2, startY + i * lineH))
+      y = startY + (lines.length - 1) * lineH
+
+      // Divider line
+      const lg = ctx.createLinearGradient(W * 0.25, 0, W * 0.75, 0)
+      lg.addColorStop(0, 'transparent'); lg.addColorStop(0.5, '#C0C0C0'); lg.addColorStop(1, 'transparent')
+      ctx.strokeStyle = lg
+      ctx.lineWidth = 1.5 * fontScale
+      ctx.beginPath()
+      ctx.moveTo(W * 0.25, y + 30 * fontScale)
+      ctx.lineTo(W * 0.75, y + 30 * fontScale)
+      ctx.stroke()
+    }
+
+    // Footer label - always present
+    ctx.fillStyle = 'rgba(192,192,192,0.4)'
+    ctx.font = `${15 * fontScale}px monospace`
+    ctx.textAlign = 'center'
+    ctx.fillText('ONE8  -  THE KING EDITION  |  FAN CONCEPT', W / 2, H - 28 * fontScale)
+  }, [template, aspect, qi])
 
   useEffect(() => {
     if (!gen) return
-    const canvas = cvs.current!
-    const ctx    = canvas.getContext('2d')!
-    const W = canvas.width = 800, H = canvas.height = 450
-    ctx.fillStyle = '#060608'; ctx.fillRect(0,0,W,H)
-    const g = ctx.createRadialGradient(W/2,H,40,W/2,H/2,H)
-    g.addColorStop(0,'rgba(192,192,192,0.1)'); g.addColorStop(1,'transparent')
-    ctx.fillStyle = g; ctx.fillRect(0,0,W,H)
-    ctx.strokeStyle='rgba(192,192,192,0.04)'; ctx.lineWidth=1
-    for(let x=0;x<W;x+=58){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
-    for(let y=0;y<H;y+=58){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
-    ctx.font='bold 140px serif'; ctx.fillStyle='rgba(192,192,192,0.04)'; ctx.textAlign='center'
-    ctx.fillText('ONE8',W/2,H/2+55)
-    ctx.fillStyle='#F5F5F0'; ctx.font='bold 28px serif'; ctx.textAlign='center'
-    const words = QUOTES[qi].split(' ')
-    let line='', y=H/2-20
-    for(const w of words){
-      const t=line+w+' '
-      if(ctx.measureText(t).width>W*0.72&&line){ctx.fillText(line.trim(),W/2,y);line=w+' ';y+=42}else line=t
-    }
-    ctx.fillText(line.trim(),W/2,y)
-    const lg=ctx.createLinearGradient(W*.2,0,W*.8,0)
-    lg.addColorStop(0,'transparent');lg.addColorStop(.5,'#C0C0C0');lg.addColorStop(1,'transparent')
-    ctx.strokeStyle=lg;ctx.lineWidth=1.5
-    ctx.beginPath();ctx.moveTo(W*.2,y+22);ctx.lineTo(W*.8,y+22);ctx.stroke()
-    ctx.fillStyle='rgba(192,192,192,0.35)';ctx.font='11px monospace';ctx.textAlign='center'
-    ctx.fillText('ONE8 - THE KING EDITION  |  FAN CONCEPT',W/2,H-18)
-  }, [gen, qi])
+    setRendering(true)
+    // Slight delay so loading state is visible (canvas draw is sync/fast otherwise)
+    const t = setTimeout(() => { draw(); setRendering(false) }, 180)
+    return () => clearTimeout(t)
+  }, [gen, draw])
 
   const download = () => {
-    const a=document.createElement('a');a.download=`one8-wallpaper.png`;a.href=cvs.current!.toDataURL('image/png');a.click()
+    const a = document.createElement('a')
+    a.download = `one8-wallpaper-${template}-${aspect}.png`
+    a.href = cvs.current!.toDataURL('image/png')
+    a.click()
   }
 
+  const activeAspect = ASPECTS.find(x => x.id === aspect)!
+
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        {QUOTES.map((q,i)=>(
-          <button key={i} onClick={()=>{setQi(i);setGen(false)}}
-            className="text-left px-4 py-3 rounded-xl border text-sm transition-all duration-200"
-            style={{ borderColor:qi===i?'#C0C0C0':'rgba(255,255,255,0.07)', color:qi===i?'#C0C0C0':'rgba(255,255,255,0.42)', background:qi===i?'rgba(192,192,192,0.06)':'transparent' }}>
-            "{q}"
-          </button>
-        ))}
+    <div className="flex flex-col gap-5">
+
+      {/* Template picker */}
+      <div>
+        <span className="font-mono text-[10px] uppercase tracking-widest text-white/30 block mb-2">Style</span>
+        <div className="grid grid-cols-3 gap-2">
+          {TEMPLATES.map(t => (
+            <button key={t.id} onClick={() => { setTemplate(t.id); setGen(false) }}
+              className="px-2 py-3 rounded-xl border text-center transition-all duration-200"
+              style={{
+                borderColor: template === t.id ? '#C0C0C0' : 'rgba(255,255,255,0.07)',
+                background:  template === t.id ? 'rgba(192,192,192,0.07)' : 'transparent',
+              }}>
+              <div className="font-mono text-[10px] uppercase tracking-wider"
+                style={{ color: template === t.id ? '#C0C0C0' : 'rgba(255,255,255,0.5)' }}>{t.label}</div>
+              <div className="font-mono text-[8px] text-white/25 mt-0.5 leading-tight">{t.desc}</div>
+            </button>
+          ))}
+        </div>
       </div>
+
+      {/* Aspect ratio picker */}
+      <div>
+        <span className="font-mono text-[10px] uppercase tracking-widest text-white/30 block mb-2">Size</span>
+        <div className="flex gap-2">
+          {ASPECTS.map(a => (
+            <button key={a.id} onClick={() => { setAspect(a.id); setGen(false) }}
+              className="flex-1 px-3 py-2 rounded-lg border font-mono text-[10px] uppercase tracking-wider transition-all duration-200"
+              style={{
+                borderColor: aspect === a.id ? '#C0C0C0' : 'rgba(255,255,255,0.07)',
+                color:       aspect === a.id ? '#C0C0C0' : 'rgba(255,255,255,0.45)',
+                background:  aspect === a.id ? 'rgba(192,192,192,0.07)' : 'transparent',
+              }}>
+              {a.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Quote picker - only relevant for minimal/portrait */}
+      {template !== 'stats' && (
+        <div>
+          <span className="font-mono text-[10px] uppercase tracking-widest text-white/30 block mb-2">Quote</span>
+          <div className="flex flex-col gap-2">
+            {QUOTES.map((q, i) => (
+              <button key={i} onClick={() => { setQi(i); setGen(false) }}
+                className="text-left px-4 py-2.5 rounded-xl border text-sm transition-all duration-200"
+                style={{ borderColor: qi === i ? '#C0C0C0' : 'rgba(255,255,255,0.07)', color: qi === i ? '#C0C0C0' : 'rgba(255,255,255,0.42)', background: qi === i ? 'rgba(192,192,192,0.06)' : 'transparent' }}>
+                "{q}"
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Preview / generate */}
       {gen ? (
         <div>
-          <canvas ref={cvs} className="w-full rounded-xl" style={{ aspectRatio:'16/9' }}/>
-          <button onClick={download} className="btn-primary w-full py-3.5 text-sm rounded-sm mt-3">Download Wallpaper</button>
+          <div className="relative rounded-xl overflow-hidden" style={{ aspectRatio: activeAspect.ratio, maxHeight: 360, margin: '0 auto', background: '#0a0a0a' }}>
+            {rendering && (
+              <div className="absolute inset-0 flex items-center justify-center z-10" style={{ background: '#0a0a0a' }}>
+                <div className="w-6 h-6 rounded-full border-2 border-white/10 animate-spin" style={{ borderTopColor: '#C0C0C0' }} />
+              </div>
+            )}
+            <canvas ref={cvs} className="w-full h-full object-contain" />
+          </div>
+          <div className="flex gap-3 mt-3">
+            <button onClick={() => setGen(false)} className="btn-secondary flex-1 py-3 text-xs rounded-sm">Edit</button>
+            <button onClick={download} className="btn-primary flex-1 py-3 text-xs rounded-sm">Download</button>
+          </div>
         </div>
       ) : (
-        <button onClick={()=>setGen(true)} className="btn-primary w-full py-3.5 text-sm rounded-sm">Generate Wallpaper</button>
+        <button onClick={() => setGen(true)} className="btn-primary w-full py-3.5 text-sm rounded-sm">
+          Generate Wallpaper
+        </button>
       )}
     </div>
   )
